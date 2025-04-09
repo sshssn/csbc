@@ -1,0 +1,25 @@
+IMAGES TO DOWNLOAD FROM RECRAFT.AI
+
+Please download the following images from Recraft.ai and save them in the public/images/services/ directory:
+
+1. Special & Mega Projects
+   URL: https://www.recraft.ai/community?imageId=0ca2a55b-74c8-458b-abe7-c2dd911bd3a0
+   Save as: public/images/services/special-projects.jpg
+
+2. Charter Flights Services
+   URL: https://www.recraft.ai/community?imageId=ba5bbcdf-e16c-442c-9191-e43d1d04e4da
+   Save as: public/images/services/charter-flights.jpg
+
+3. Luxury Cars Shipments
+   URL: https://www.recraft.ai/community?imageId=dad0540e-bc07-4006-aab3-786db362fe6b
+   Save as: public/images/services/luxury-cars.jpg
+
+4. Luxury Products Logistics
+   URL: https://www.recraft.ai/community?imageId=a0c95c06-ec63-4bd2-accf-3344bd266186
+   Save as: public/images/services/luxury-products.jpg
+
+Note: These Recraft.ai URLs are not direct image URLs but links to web pages that display the images.
+You'll need to:
+1. Visit each URL
+2. Download the image from the page
+3. Save it with the specified name in public/images/services/ 

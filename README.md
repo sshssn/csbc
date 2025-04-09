@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EK360 Cargo Website
+
+A modern website for EK360 Cargo, a logistics and shipping company serving the GCC region.
+
+## Features
+
+- **Homepage** with a hero section, features, content sections, statistics, team showcase, call to action, and FAQs
+- **About Us Page** with company story, vision, and team members
+- **Services Page** showcasing the various logistics and shipping services offered
+- **Events Pages** for current and upcoming industry events
+- **Contact Us Page** with a contact form and office locations
+- **Cargo Tracking System** for real-time shipment tracking
+
+## Tech Stack
+
+- **Next.js** - React framework for server-rendered applications
+- **TypeScript** - Type-safe JavaScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **ShadCN UI** - High-quality UI components
+- **Lucide Icons** - Beautiful open-source icons
 
 ## Getting Started
 
-First, run the development server:
+First, install the dependencies:
 
 ```bash
-npm run dev
-# or
+yarn install
+```
+
+Then, run the development server:
+
+```bash
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Pages Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/` - Homepage
+- `/about-us` - About Us page
+- `/contact-us` - Contact Us page
+- `/services` - Services page
+- `/events/current` - Current Events page
+- `/events/upcoming` - Upcoming Events page
+- `/cargo-tracking` - Cargo Tracking system
 
-## Learn More
+## Components
 
-To learn more about Next.js, take a look at the following resources:
+All reusable components are organized in the `src/components` directory. The application uses a modular approach with components like:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Hero Section
+- Features
+- Content Sections
+- Statistics
+- Team Showcase
+- FAQs
+- Footer
+- Contact Form
+- Bento Grid
+- Globe (for showing logistics coverage)
+- Loading Animation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under EcommerceFusion LLC, AffinityX.
