@@ -42,7 +42,7 @@ export function BackToTop() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 20 }}
-                    className="fixed bottom-8 right-8 z-50"
+                    className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50"
                 >
                     <div className="relative backdrop-blur-xl group overflow-hidden rounded-full">
                         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 via-blue-500/30 to-emerald-500/30 opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
@@ -51,10 +51,11 @@ export function BackToTop() {
                         <motion.button
                             onClick={scrollToTop}
                             className={cn(
-                                'h-12 w-12 rounded-full bg-white/10 dark:bg-black/10 backdrop-blur-lg flex items-center justify-center relative z-10',
+                                'h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-white/10 dark:bg-black/10 backdrop-blur-lg flex items-center justify-center relative z-10',
                                 'shadow-lg shadow-black/5 dark:shadow-white/5 transition-all duration-300 ease-in-out',
                                 'hover:bg-white/20 dark:hover:bg-black/20'
                             )}
+                            whileTap={{ scale: 0.95 }}
                         >
                             <motion.div
                                 initial={false}
@@ -76,7 +77,7 @@ export function BackToTop() {
                                             exit={{ opacity: 0, scale: 0.5 }}
                                             transition={{ duration: 0.2 }}
                                         >
-                                            <Check className="h-6 w-6 text-primary" />
+                                            <Check className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                                         </motion.div>
                                     ) : (
                                         <motion.div
@@ -86,7 +87,7 @@ export function BackToTop() {
                                             exit={{ opacity: 0, scale: 0.5 }}
                                             transition={{ duration: 0.2 }}
                                         >
-                                            <ChevronUp className="h-6 w-6 text-primary" />
+                                            <ChevronUp className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                                         </motion.div>
                                     )}
                                 </AnimatePresence>

@@ -134,8 +134,45 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
   body {
     @apply bg-background text-foreground;
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior-y: none;
+    overflow-x: hidden;
+  }
+  
+  /* Improve image loading performance */
+  img, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  /* Optimize animations for mobile */
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  
+  /* Better scrolling */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+  }
+  
+  /* Mobile-first button styles */
+  button, [role="button"] {
+    touch-action: manipulation;
   }
 }
 

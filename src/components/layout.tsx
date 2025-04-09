@@ -1,6 +1,7 @@
 'use client'
 
 import { HeroHeader } from './hero5-header'
+import { MobileNavbar } from './mobile-navbar'
 import { type ReactNode } from 'react'
 import { GradientTracing } from './ui/gradient-tracing'
 import { usePathname } from 'next/navigation'
@@ -17,7 +18,10 @@ export default function Layout({ children }: { children: ReactNode }) {
             {!isCargoTracking && (
                 <>
                     <TopBanner />
-                    <HeroHeader />
+                    <MobileNavbar />
+                    <div className="hidden lg:block">
+                        <HeroHeader />
+                    </div>
                 </>
             )}
             {isCargoTracking ? (
@@ -30,7 +34,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                     </div>
                 </div>
             ) : (
-                <main>
+                <main className="overflow-x-hidden">
                     {children}
                 </main>
             )}

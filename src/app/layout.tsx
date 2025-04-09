@@ -18,6 +18,9 @@ const geistMono = Geist_Mono({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  maximumScale: 5,
+  minimumScale: 1,
+  userScalable: true,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" }
@@ -25,34 +28,34 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ek360cargo.com"),
-  title: "EK360 Cargo - Global Logistics & Shipping Solutions",
-  description: "EK360 Cargo provides comprehensive freight, logistics, and supply chain solutions across Dubai, Saudi Arabia, and the GCC region. Fast, reliable, and secure cargo services.",
-  keywords: "logistics, cargo, shipping, freight, Dubai, Saudi Arabia, GCC, supply chain, air freight, sea freight, warehousing",
-  authors: [{ name: "EK360 Cargo" }],
-  robots: "index, follow",
-  manifest: "/site.webmanifest",
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://ek360cargo.com",
-    siteName: "EK360 Cargo",
-    title: "EK360 Cargo - Global Logistics & Shipping Solutions",
-    description: "Leading logistics provider in Dubai, Saudi Arabia and GCC region. Offering comprehensive freight and supply chain solutions.",
-    images: [
-      {
-        url: "/images/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "EK360 Cargo",
-      },
-    ],
+  title: {
+    template: "%s | EK360 Cargo",
+    default: "EK360 Cargo - Global Logistics & Freight Solutions",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "EK360 Cargo - Global Logistics & Shipping Solutions",
-    description: "Leading logistics provider in Dubai, Saudi Arabia and GCC region. Offering comprehensive freight and supply chain solutions.",
-    images: ["/images/og-image.jpg"],
+  description:
+    "EK360 Cargo provides comprehensive logistics solutions globally, including air, sea, and land freight forwarding.",
+  generator: "Next.js",
+  applicationName: "EK360 Cargo",
+  keywords: ["logistics", "cargo", "freight", "shipping", "supply chain", "transport", "air freight", "sea freight", "land freight"],
+  authors: [{ name: "EK360 Cargo", url: "https://ek360.cargo.com" }],
+  creator: "EK360 Cargo",
+  publisher: "EK360 Cargo",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://ek360.cargo.com"),
+  alternates: {
+    canonical: "/",
+  },
+  manifest: "/site.webmanifest",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    images: ['/og-image.jpg'],
   },
 };
 
@@ -70,7 +73,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased overflow-x-hidden`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
