@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTheme } from 'next-themes'
-import { Menu, X, Sun, Moon, Home, Info, Boxes, Calendar, MessageSquare, Leaf, Package } from 'lucide-react'
+import { Sun, Moon, Home, Info, Boxes, Calendar, MessageSquare, Leaf, Package } from 'lucide-react'
 import { Logo } from './logo'
 import { cn } from '@/lib/utils'
 
@@ -51,17 +51,17 @@ export function MobileNavbar() {
             document.body.style.overflow = ''
         }
     }, [isOpen])
-
+    
     // Simple menu component to reduce bundle size
     const menuVariants = {
-        hidden: { opacity: 0, y: -20 },
-        visible: { opacity: 1, y: 0 },
-        exit: { opacity: 0, y: -20 }
+        hidden: { opacity: 0 },
+        visible: { opacity: 1 },
+        exit: { opacity: 0 }
     }
 
     return (
-        <nav className="lg:hidden fixed z-50 w-full">
-            {/* Mobile Navbar */}
+        <nav className="lg:hidden relative z-50 w-full">
+            {/* Mobile Navbar - Not sticky */}
             <div 
                 className={cn(
                     "transition-all duration-300 px-4 py-2", 
@@ -98,22 +98,30 @@ export function MobileNavbar() {
                             </button>
                         )}
 
+                        {/* Improved Hamburger Button */}
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="relative z-50 p-2 rounded-full"
+                            className="flex flex-col justify-center items-center w-10 h-10 relative z-50 rounded-md"
                             aria-label={isOpen ? 'Close Menu' : 'Open Menu'}
                         >
-                            {isOpen ? (
-                                <X className="h-5 w-5" />
-                            ) : (
-                                <Menu className="h-5 w-5" />
-                            )}
+                            <span className={cn(
+                                "bg-primary w-6 h-0.5 rounded-full transition-all duration-300 ease-out",
+                                isOpen ? "transform rotate-45 translate-y-[6px]" : "mb-1.5"
+                            )} />
+                            <span className={cn(
+                                "bg-primary w-6 h-0.5 rounded-full transition-all duration-300 ease-out",
+                                isOpen ? "opacity-0" : ""
+                            )} />
+                            <span className={cn(
+                                "bg-primary w-6 h-0.5 rounded-full transition-all duration-300 ease-out",
+                                isOpen ? "transform -rotate-45 -translate-y-[6px]" : "mt-1.5"
+                            )} />
                         </button>
                     </div>
                 </div>
             </div>
 
-            {/* Mobile Menu with reduced animation complexity */}
+            {/* Improved Mobile Menu - Full Screen Experience */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -121,10 +129,10 @@ export function MobileNavbar() {
                         initial="hidden"
                         animate="visible"
                         exit="exit"
-                        transition={{ duration: 0.2 }}
-                        className="fixed inset-0 z-40 bg-background/95 backdrop-blur-sm pt-16 pb-6 px-4 h-[100dvh] w-screen overflow-auto"
+                        transition={{ duration: 0.3 }}
+                        className="fixed inset-0 z-40 bg-background pt-20 pb-6 px-6 h-[100dvh] w-screen overflow-auto flex flex-col"
                     >
-                        <div className="flex flex-col space-y-1 mt-4">
+                        <div className="flex flex-col space-y-4 mt-8">
                             {menuItems.map((item) => {
                                 const isActive = pathname === item.href
                                 
@@ -133,17 +141,31 @@ export function MobileNavbar() {
                                         key={item.name}
                                         href={item.href}
                                         className={cn(
-                                            "flex items-center gap-3 px-4 py-3 rounded-xl transition-colors font-medium",
+                                            "flex items-center gap-4 py-4 border-b border-gray-100 dark:border-gray-800 transition-colors font-medium text-lg",
                                             isActive 
-                                                ? "bg-primary/10 text-primary" 
-                                                : "hover:bg-muted"
+                                                ? "text-primary" 
+                                                : "text-gray-700 dark:text-gray-300"
                                         )}
                                     >
-                                        <item.icon className="h-5 w-5" />
+                                        <item.icon className="h-6 w-6" />
                                         <span>{item.name}</span>
                                     </Link>
                                 )
                             })}
+                        </div>
+                        
+                        <div className="mt-auto pt-8">
+                            <Link 
+                                href="/cargo-tracking"
+                                className="flex items-center justify-center gap-2 bg-primary text-white w-full py-4 rounded-lg font-medium text-lg"
+                            >
+                                <Package className="w-5 h-5" />
+                                <span>Track Your Shipment</span>
+                            </Link>
+                            
+                            <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                                © {new Date().getFullYear()} EK360 Cargo. All rights reserved.
+                            </div>
                         </div>
                     </motion.div>
                 )}

@@ -15,6 +15,16 @@ export const VIDEO_SOURCES = {
   "/contact-us": `${CLOUDFRONT_DOMAIN}/videos/contact-us-hero.mp4`,
 };
 
+// Fallback to original videos if CloudFront fails
+export const FALLBACK_VIDEO_SOURCES = {
+  "/": "/video/hero.mp4",
+  "/about-us": "/video/hero2.mp4",
+  "/sustainability": "/video/hero3.mp4",
+  "/services": "/video/hero4.mp4",
+  "/events/upcoming": "/video/hero5.mp4",
+  "/contact-us": "/video/hero.mp4",
+};
+
 // Image optimization via CloudFront
 export const getOptimizedImageUrl = (path: string) => {
   return `${CLOUDFRONT_DOMAIN}/images/${path}`;
@@ -30,5 +40,16 @@ export const VIDEO_POSTERS = {
   "/contact-us": `${CLOUDFRONT_DOMAIN}/images/posters/contact-us-poster.jpg`,
 };
 
+// Fallback poster images (local)
+export const FALLBACK_POSTERS = {
+  "/": "/images/hero-poster.jpg",
+  "/about-us": "/images/about-hero-poster.jpg",
+  "/sustainability": "/images/sustainability-hero-poster.jpg",
+  "/services": "/images/services-hero-poster.jpg",
+  "/events/upcoming": "/images/events-hero-poster.jpg",
+  "/contact-us": "/images/contact-hero-poster.jpg",
+};
+
 // Default poster
-export const DEFAULT_POSTER = `${CLOUDFRONT_DOMAIN}/images/posters/default-poster.jpg`; 
+export const DEFAULT_POSTER = `${CLOUDFRONT_DOMAIN}/images/posters/default-poster.jpg`;
+export const DEFAULT_FALLBACK_POSTER = "/images/hero-poster.jpg"; 

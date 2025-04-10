@@ -3,7 +3,14 @@ import { cn } from "@/lib/utils"
 import { ChevronRight } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { GradientText } from '@/components/ui/gradient-text'
-import { VIDEO_SOURCES, VIDEO_POSTERS, DEFAULT_POSTER } from '@/config/cloudfront'
+import { 
+  VIDEO_SOURCES, 
+  VIDEO_POSTERS, 
+  DEFAULT_POSTER,
+  FALLBACK_VIDEO_SOURCES,
+  FALLBACK_POSTERS,
+  DEFAULT_FALLBACK_POSTER 
+} from '@/config/cloudfront'
 
 // For TypeScript support of Navigator.connection
 interface NetworkInformation {
@@ -37,6 +44,9 @@ interface HeroSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode
 }
 
+// DEBUG: Log the actual video URLs to help diagnose issues
+console.log('CloudFront Videos:', VIDEO_SOURCES);
+
 const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
   (
     {
@@ -57,15 +67,48 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
     ref,
   ) => {
     const pathname = usePathname() as ValidPath;
-    // Use CloudFront video sources
-    const videoUrl = (pathname && pathname in VIDEO_SOURCES) 
-      ? VIDEO_SOURCES[pathname] 
-      : videoSrc || VIDEO_SOURCES['/'];
     
-    // Get poster image from CloudFront
-    const posterUrl = (pathname && pathname in VIDEO_POSTERS)
-      ? VIDEO_POSTERS[pathname]
-      : DEFAULT_POSTER;
+    // DEBUG: Log the current path to help diagnose issues
+    console.log('Current path:', pathname);
+    
+    // State to track if CloudFront is accessible
+    const [cloudFrontFailed, setCloudFrontFailed] = React.useState(false);
+    
+    // Get the correct video URL based on path and CloudFront status
+    const videoUrl = React.useMemo(() => {
+      // If CloudFront failed, use local fallback
+      if (cloudFrontFailed) {
+        return pathname in FALLBACK_VIDEO_SOURCES 
+          ? FALLBACK_VIDEO_SOURCES[pathname] 
+          : videoSrc || "/video/hero.mp4";
+      }
+      
+      // Otherwise use CloudFront
+      return pathname in VIDEO_SOURCES 
+        ? VIDEO_SOURCES[pathname] 
+        : videoSrc || VIDEO_SOURCES['/'];
+    }, [pathname, cloudFrontFailed, videoSrc]);
+    
+    // Get the correct poster URL based on path and CloudFront status
+    const posterUrl = React.useMemo(() => {
+      // If CloudFront failed, use local fallback
+      if (cloudFrontFailed) {
+        return pathname in FALLBACK_POSTERS 
+          ? FALLBACK_POSTERS[pathname] 
+          : DEFAULT_FALLBACK_POSTER;
+      }
+      
+      // Otherwise use CloudFront
+      return pathname in VIDEO_POSTERS 
+        ? VIDEO_POSTERS[pathname] 
+        : DEFAULT_POSTER;
+    }, [pathname, cloudFrontFailed]);
+    
+    // Debug the selected video URL
+    React.useEffect(() => {
+      console.log('Using video URL:', videoUrl);
+      console.log('Using poster URL:', posterUrl);
+    }, [videoUrl, posterUrl]);
     
     // Performance optimization states
     const [isLoaded, setIsLoaded] = React.useState(false);
@@ -73,7 +116,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
     const [shouldLoadVideo, setShouldLoadVideo] = React.useState(false);
     const videoRef = React.useRef<HTMLVideoElement>(null);
     
-    // Check if we should show video based on user preference and device capabilities
+    // Check if CloudFront is accessible and set up mobile detection
     React.useEffect(() => {
       // Performance detection function
       const checkPerformance = () => {
@@ -92,12 +135,8 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
         
         setIsMobile(shouldOptimize);
         
-        // Even on desktop, only load video if performance metrics are good
-        const canLoadVideo = !shouldOptimize && 
-                           'connection' in navigator && 
-                           (navigator.connection as NetworkInformation)?.effectiveType === '4g';
-        
-        setShouldLoadVideo(canLoadVideo);
+        // Always attempt to load video, but use poster as fallback
+        setShouldLoadVideo(true);
       };
       
       // Run performance check
@@ -110,33 +149,38 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
       
       window.addEventListener('resize', handleResize, { passive: true });
       
-      // Lazy load video using Intersection Observer
-      if (!isMobile && ref && 'current' in ref && ref.current) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            if (entries[0].isIntersecting) {
-              // Small delay to prioritize other critical resources
-              setTimeout(() => {
-                setIsLoaded(true);
-              }, 300);
-              observer.disconnect();
-            }
-          },
-          { threshold: 0.1 }
-        );
-        
-        observer.observe(ref.current);
-        
-        return () => {
-          observer.disconnect();
-          window.removeEventListener('resize', handleResize);
-        };
-      }
+      // Test if CloudFront is accessible
+      const testCloudFrontAccess = async () => {
+        try {
+          // Just try to fetch the homepage hero video
+          const cloudFrontUrl = VIDEO_SOURCES['/'];
+          
+          // Use fetch with HEAD request to test if CloudFront is accessible
+          const response = await fetch(cloudFrontUrl, { 
+            method: 'HEAD',
+            // Need to use no-cors mode because of CORS restrictions
+            mode: 'no-cors'
+          });
+          
+          // If we got here, CloudFront is probably accessible
+          setCloudFrontFailed(false);
+          setIsLoaded(true);
+        } catch (error) {
+          // If there was an error, CloudFront is probably not accessible
+          console.error('CloudFront access error, falling back to local videos', error);
+          setCloudFrontFailed(true);
+          setIsLoaded(true);
+        }
+      };
       
+      // Test CloudFront access
+      testCloudFrontAccess();
+      
+      // Clean up event listeners
       return () => {
         window.removeEventListener('resize', handleResize);
       };
-    }, [ref, isMobile]);
+    }, []);
     
     // Implement preconnect for CloudFront domain
     React.useEffect(() => {
@@ -166,7 +210,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-gray-900/80 to-black/80" />
           
-          {/* Video for high-performance devices only */}
+          {/* Video loading with error handling */}
           {isLoaded && shouldLoadVideo && (
             <video
               ref={videoRef}
@@ -180,7 +224,16 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
               poster={posterUrl}
               onLoadStart={() => {
                 if (videoRef.current) {
-                  videoRef.current.playbackRate = 0.8; // Slightly slower playback for better performance
+                  videoRef.current.playbackRate = 0.8;
+                }
+              }}
+              onError={(e) => {
+                // If CloudFront video fails, try fallback
+                if (!cloudFrontFailed) {
+                  console.error('CloudFront video failed to load, trying fallback');
+                  setCloudFrontFailed(true);
+                } else {
+                  console.error('Both CloudFront and fallback videos failed to load');
                 }
               }}
             >
@@ -209,12 +262,18 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
               </div>
               {ctaText && ctaHref && (
                 <div className="items-center justify-center gap-x-3 space-y-3 sm:flex sm:space-y-0 pt-4">
-                  <a
-                    href={ctaHref}
-                    className="inline-flex rounded-full text-center items-center justify-center text-white bg-primary hover:bg-primary/90 transition-colors sm:w-auto py-3 sm:py-4 px-8 sm:px-10 font-medium"
-                  >
-                    {ctaText}
-                  </a>
+                  {/* Original button style with spinning gradient border */}
+                  <span className="relative inline-block overflow-hidden rounded-full p-[1.5px]">
+                    <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+                    <div className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-gray-950/80 backdrop-blur-sm text-xs font-medium">
+                      <a
+                        href={ctaHref}
+                        className="inline-flex rounded-full text-center group items-center w-full justify-center text-white border-input border-[1px] border-white/20 hover:bg-white/10 transition-all sm:w-auto py-3 sm:py-4 px-8 sm:px-10"
+                      >
+                        {ctaText}
+                      </a>
+                    </div>
+                  </span>
                 </div>
               )}
             </div>
