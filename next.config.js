@@ -18,7 +18,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'd1example12345.cloudfront.net',
+        hostname: 'd2h9e6wlbpf4nc.cloudfront.net',
       },
     ],
     formats: ['image/avif', 'image/webp'],
@@ -44,7 +44,6 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
-  swcMinify: true,
   async headers() {
     return [
       {
