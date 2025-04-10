@@ -44,32 +44,32 @@ export default function AboutUs() {
           ctaText="Discover Our Services"
           ctaHref="/services"
         >
-          {/* Stats Cards moved inside HeroSection */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          {/* Stats Cards with proper mobile spacing */}
+          <div className="mt-16 sm:mt-20 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {stats.map((value, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                // Updated styling for cards inside hero
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
                 className="bg-white/80 dark:bg-black/50 backdrop-blur-md p-6 rounded-xl border border-white/20 dark:border-gray-800/50 shadow-lg hover:shadow-xl transition-shadow"
-                >
-                  <value.icon className="w-10 h-10 text-primary mb-4" />
-                  <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{value.title}</h3>
+              >
+                <value.icon className="w-10 h-10 text-primary mb-4" />
+                <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{value.title}</h3>
                 <p className="text-gray-700 dark:text-gray-300">{value.desc}</p>
-                </motion.div>
-              ))}
+              </motion.div>
+            ))}
           </div>
         </HeroSection>
 
-        {/* CEO Message Section */}
-        <section className="py-16 sm:py-20 bg-gray-50 dark:bg-black/50">
+        {/* CEO Message Section - Fixed for mobile */}
+        <section className="py-16 sm:py-20 bg-gray-50 dark:bg-black/50 mt-12 sm:mt-0">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-                <div className="relative md:w-[80%] mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-12 items-center">
+                {/* CEO Image Container - Fixed for mobile */}
+                <div className="relative mx-auto w-[80%] md:w-[80%] pt-12 md:pt-0">
                   <GlowingEffect 
                     disabled={false} 
                     glow={true} 
@@ -86,19 +86,21 @@ export default function AboutUs() {
                     />
                   </div>
                   </GlowingEffect>
-                  <div className="absolute -bottom-6 -right-6 bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200 dark:border-gray-800">
-                    <p className="font-semibold text-lg text-gray-900 dark:text-white">Nader Nashash</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">CEO & Founder</p>
+                  <div className="absolute -bottom-6 -right-6 max-w-[80%] bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-2xl p-4 md:p-6 shadow-lg border border-gray-200 dark:border-gray-800">
+                    <p className="font-semibold text-base md:text-lg text-gray-900 dark:text-white">Nader Nashash</p>
+                    <p className="text-xs md:text-sm text-gray-600 dark:text-gray-400">CEO & Founder</p>
                   </div>
                 </div>
+                
+                {/* CEO Message - Fixed for mobile */}
                 <div>
-                  <FadeInHeading as="h2" className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
+                  <FadeInHeading as="h2" className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-gray-900 dark:text-white">
                     Message from the CEO
                   </FadeInHeading>
-                  <FadeInParagraph className="text-lg text-gray-600 dark:text-gray-300 mb-6 italic">
+                  <FadeInParagraph className="text-base md:text-lg text-gray-600 dark:text-gray-300 mb-4 md:mb-6 italic">
                     &quot;Integrated Logistics Pioneer, Delivering Excellence Worldwide. Bringing the top-notch of our global experience by your side!&quot;
                   </FadeInParagraph>
-                  <div className="space-y-4 text-gray-600 dark:text-gray-300">
+                  <div className="space-y-3 md:space-y-4 text-gray-600 dark:text-gray-300">
                     <FadeInParagraph delay={0.2}>
                       As an integrated logistics provider, we are constantly innovating to offer our clients individually optimized logistics services.
                     </FadeInParagraph>
@@ -109,16 +111,16 @@ export default function AboutUs() {
                       At EK 360 Cargo, we are determined to continuously improve our service delivery methods and policies with the objective of exceeding client expectations and staying ahead of the competition.
                     </FadeInParagraph>
                   </div>
-                  <div className="mt-8">
+                  <div className="mt-6 md:mt-8">
                     <span className="relative inline-block overflow-hidden rounded-full p-[1.5px]">
                       <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                       <div className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-white dark:bg-gray-950 text-xs font-medium backdrop-blur-3xl">
                         <Link
                           href="/contact-us"
-                          className="inline-flex rounded-full text-center group items-center w-full justify-center bg-gradient-to-tr from-zinc-300/30 via-primary/30 to-transparent dark:from-zinc-300/5 dark:via-purple-400/20 text-gray-900 dark:text-white border-input border-[1px] hover:bg-gradient-to-tr hover:from-zinc-300/40 hover:via-primary/40 hover:to-transparent dark:hover:from-zinc-300/10 dark:hover:via-purple-400/30 transition-all sm:w-auto py-4 px-10 text-base sm:text-lg"
+                          className="inline-flex rounded-full text-center group items-center w-full justify-center bg-gradient-to-tr from-zinc-300/30 via-primary/30 to-transparent dark:from-zinc-300/5 dark:via-purple-400/20 text-gray-900 dark:text-white border-input border-[1px] hover:bg-gradient-to-tr hover:from-zinc-300/40 hover:via-primary/40 hover:to-transparent dark:hover:from-zinc-300/10 dark:hover:via-purple-400/30 transition-all sm:w-auto py-3 md:py-4 px-6 md:px-10 text-sm md:text-base"
                         >
                           Get in Touch
-                  </Link>
+                        </Link>
                       </div>
                     </span>
                   </div>
@@ -128,12 +130,12 @@ export default function AboutUs() {
           </div>
         </section>
 
-        {/* Values Section */}
+        {/* Values Section - Fixed for mobile */}
         <section className="py-16 sm:py-20">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12 md:mb-16">
+            <div className="text-center mb-10 md:mb-16">
               <FadeInHeading>
-                <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
                   Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500">Philosophy</span> & Values
                 </h2>
               </FadeInHeading>
@@ -149,23 +151,23 @@ export default function AboutUs() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="bg-white dark:bg-black/50 backdrop-blur-md p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-md hover:shadow-xl transition-shadow md:col-span-3 relative overflow-hidden"
+                className="bg-white dark:bg-black/50 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-md hover:shadow-xl transition-shadow md:col-span-3 relative overflow-hidden"
               >
                 <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-primary/10 via-purple-500/5 to-transparent rounded-full -mr-20 -mt-20 blur-3xl" />
-                <div className="relative flex flex-col md:flex-row gap-8 items-center">
-                  <div className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-2xl bg-gradient-to-br from-primary/10 to-purple-500/10 flex items-center justify-center">
-                    <HeartHandshake className="w-12 h-12 md:w-16 md:h-16 text-primary" />
+                <div className="relative flex flex-col md:flex-row gap-6 md:gap-8 items-center">
+                  <div className="flex-shrink-0 w-20 h-20 md:w-32 md:h-32 rounded-2xl bg-gradient-to-br from-primary/10 to-purple-500/10 flex items-center justify-center">
+                    <HeartHandshake className="w-10 h-10 md:w-16 md:h-16 text-primary" />
                   </div>
                   <div className="text-center md:text-left">
-                    <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Our Mission</h3>
-                    <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4 text-gray-900 dark:text-white">Our Mission</h3>
+                    <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
                       With a focus on the dynamic challenges of global trade, our mission is to design, build and deliver flexible, integrated, best-in-class and cost-effective logistics solutions on time and with quality. We aim to create a sustainable business and innovative future through a differentiated logistics experience.
                     </p>
                   </div>
                 </div>
               </motion.div>
 
-              {/* Value Cards Grid */}
+              {/* Value Cards Grid - Fixed for mobile */}
               {[
                 { 
                   icon: (props: React.SVGProps<SVGSVGElement>) => (
@@ -259,25 +261,25 @@ export default function AboutUs() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                    className="group relative bg-white dark:bg-black/50 backdrop-blur-md rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 p-6"
-                  >
-                    <div className="absolute inset-0 z-0 transition-opacity opacity-0 group-hover:opacity-100 bg-gradient-to-br from-white/5 to-white/10 dark:from-gray-800/5 dark:to-gray-900/10" />
-                    
-                    <div className={`absolute h-1 top-0 left-0 right-0 bg-gradient-to-r ${colorMap[value.color]} transition-transform duration-300 transform origin-left scale-x-0 group-hover:scale-x-100`} />
+                  className="group relative bg-white dark:bg-black/50 backdrop-blur-md rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 p-5 md:p-6"
+                >
+                  <div className="absolute inset-0 z-0 transition-opacity opacity-0 group-hover:opacity-100 bg-gradient-to-br from-white/5 to-white/10 dark:from-gray-800/5 dark:to-gray-900/10" />
+                  
+                  <div className={`absolute h-1 top-0 left-0 right-0 bg-gradient-to-r ${colorMap[value.color]} transition-transform duration-300 transform origin-left scale-x-0 group-hover:scale-x-100`} />
 
-                    <div className="relative flex flex-col h-full">
-                      <div className={`rounded-xl p-3 mb-4 w-12 h-12 flex items-center justify-center ${value.color === 'cyan' ? 'bg-cyan-50 dark:bg-cyan-950/20 text-cyan-600 dark:text-cyan-400' : 
-                      value.color === 'blue' ? 'bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400' :
-                      value.color === 'purple' ? 'bg-purple-50 dark:bg-purple-950/20 text-purple-600 dark:text-purple-400' :
-                      value.color === 'green' ? 'bg-green-50 dark:bg-green-950/20 text-green-600 dark:text-green-400' :
-                      value.color === 'amber' ? 'bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400' :
-                      'bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400'}`}>
-                        {value.icon({ className: "w-6 h-6" })}
-                      </div>
-                      
-                      <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white group-hover:text-primary transition-colors">{value.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-400">{value.desc}</p>
+                  <div className="relative flex flex-col h-full">
+                    <div className={`rounded-xl p-3 mb-3 md:mb-4 w-10 h-10 md:w-12 md:h-12 flex items-center justify-center ${value.color === 'cyan' ? 'bg-cyan-50 dark:bg-cyan-950/20 text-cyan-600 dark:text-cyan-400' : 
+                    value.color === 'blue' ? 'bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400' :
+                    value.color === 'purple' ? 'bg-purple-50 dark:bg-purple-950/20 text-purple-600 dark:text-purple-400' :
+                    value.color === 'green' ? 'bg-green-50 dark:bg-green-950/20 text-green-600 dark:text-green-400' :
+                    value.color === 'amber' ? 'bg-amber-50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400' :
+                    'bg-rose-50 dark:bg-rose-950/20 text-rose-600 dark:text-rose-400'}`}>
+                      {value.icon({ className: "w-5 h-5 md:w-6 md:h-6" })}
                     </div>
+                    
+                    <h3 className="text-lg md:text-xl font-semibold mb-1 md:mb-2 text-gray-900 dark:text-white group-hover:text-primary transition-colors">{value.title}</h3>
+                    <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">{value.desc}</p>
+                  </div>
                 </motion.div>
                 );
               })}
@@ -285,33 +287,33 @@ export default function AboutUs() {
           </div>
         </section>
 
-        {/* Sustainability Section */}
-        <section className="py-16 sm:py-20 bg-gradient-to-b from-primary/5 to-background">
+        {/* Sustainability Section - Fixed for mobile */}
+        <section className="py-16 sm:py-20 bg-gradient-to-b from-primary/5 to-background mt-8 md:mt-0">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
-                <div className="relative order-2 lg:order-1">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-12 items-center">
+                <div className="relative order-2 lg:order-1 pt-12 lg:pt-0">
                   <ParallaxImage>
-                  <div className="aspect-square relative rounded-2xl overflow-hidden">
-                    <Image
-                      src="/images/value.jpg"
-                      alt="Sustainability"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+                    <div className="aspect-square relative rounded-2xl overflow-hidden">
+                      <Image
+                        src="/images/value.jpg"
+                        alt="Sustainability"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                   </ParallaxImage>
-                  <div className="absolute -bottom-6 -left-6 bg-white/60 dark:bg-black/60 backdrop-blur-[6px] rounded-2xl p-6 shadow-lg border border-white/20 dark:border-gray-800/50">
-                    <HeartHandshake className="w-12 h-12 text-primary mb-3" />
-                    <p className="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600 dark:from-primary/90 dark:to-purple-500">CSR & Sustainability</p>
-                    <p className="text-sm text-gray-700 dark:text-gray-300">Making a difference</p>
+                  <div className="absolute -bottom-6 -left-6 max-w-[80%] bg-white/60 dark:bg-black/60 backdrop-blur-[6px] rounded-2xl p-4 md:p-6 shadow-lg border border-white/20 dark:border-gray-800/50">
+                    <HeartHandshake className="w-8 h-8 md:w-12 md:h-12 text-primary mb-2 md:mb-3" />
+                    <p className="font-semibold text-sm md:text-base text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600 dark:from-primary/90 dark:to-purple-500">CSR & Sustainability</p>
+                    <p className="text-xs md:text-sm text-gray-700 dark:text-gray-300">Making a difference</p>
                   </div>
                 </div>
                 <div className="order-1 lg:order-2">
-                  <FadeInHeading as="h2" className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">
+                  <FadeInHeading as="h2" className="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-gray-900 dark:text-white">
                     Our Commitment to Sustainability
                   </FadeInHeading>
-                  <div className="space-y-4 text-gray-600 dark:text-gray-300">
+                  <div className="space-y-3 md:space-y-4 text-gray-600 dark:text-gray-300">
                     <FadeInParagraph delay={0.2}>
                       This is the world we all want. Making it happens? That&apos;s going to take leadership, creativity - and the full force of our collective ambitions.
                     </FadeInParagraph>
@@ -322,16 +324,16 @@ export default function AboutUs() {
                       We are at a significant and exciting chapter in history. As our business keeps growing in scale and influence, we&apos;re harnessing our unique capabilities to be a force for positive change.
                     </FadeInParagraph>
                   </div>
-                  <div className="mt-8">
+                  <div className="mt-6 md:mt-8">
                     <span className="relative inline-block overflow-hidden rounded-full p-[1.5px]">
                       <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                       <div className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-white dark:bg-gray-950 text-xs font-medium backdrop-blur-3xl">
                         <Link
                           href="/sustainability"
-                          className="inline-flex rounded-full text-center group items-center w-full justify-center bg-gradient-to-tr from-zinc-300/30 via-primary/30 to-transparent dark:from-zinc-300/5 dark:via-purple-400/20 text-gray-900 dark:text-white border-input border-[1px] hover:bg-gradient-to-tr hover:from-zinc-300/40 hover:via-primary/40 hover:to-transparent dark:hover:from-zinc-300/10 dark:hover:via-purple-400/30 transition-all sm:w-auto py-4 px-10 text-base sm:text-lg"
+                          className="inline-flex rounded-full text-center group items-center w-full justify-center bg-gradient-to-tr from-zinc-300/30 via-primary/30 to-transparent dark:from-zinc-300/5 dark:via-purple-400/20 text-gray-900 dark:text-white border-input border-[1px] hover:bg-gradient-to-tr hover:from-zinc-300/40 hover:via-primary/40 hover:to-transparent dark:hover:from-zinc-300/10 dark:hover:via-purple-400/30 transition-all sm:w-auto py-3 md:py-4 px-6 md:px-10 text-sm md:text-base"
                         >
                           Learn More About Our Impact
-                  </Link>
+                        </Link>
                       </div>
                     </span>
                   </div>
