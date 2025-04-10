@@ -55,7 +55,7 @@ function UpcomingEventsContent() {
         }}
         description={
           <>
-            Explore <GradientText as="span">culture</GradientText>, inspiring <GradientText as="span">talks</GradientText> & <GradientText as="span">literature</GradientText> at ADIBF 2025.
+            Explore <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-pink-500 font-semibold">culture</span>, inspiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-500 font-semibold">talks</span> & <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 font-semibold">literature</span> at ADIBF 2025.
           </>
         }
         videoSrc="/video/hero5.mp4" 
