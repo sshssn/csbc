@@ -3,7 +3,7 @@
  */
 
 // CloudFront distribution domain
-export const CLOUDFRONT_DOMAIN = 'https://d1example12345.cloudfront.net';
+export const CLOUDFRONT_DOMAIN = 'https://d2h9e6wlbpf4nc.cloudfront.net';
 
 // Video mapping to CloudFront
 export const VIDEO_SOURCES = {

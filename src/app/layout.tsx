@@ -75,7 +75,7 @@ export default function RootLayout({
         {/* Critical preconnects */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://d1example12345.cloudfront.net" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://d2h9e6wlbpf4nc.cloudfront.net" crossOrigin="anonymous" />
         
         {/* Detect JS availability before page load */}
         <script dangerouslySetInnerHTML={{
@@ -83,7 +83,7 @@ export default function RootLayout({
         }} />
         
         {/* Preload critical assets */}
-        <link rel="preload" href="https://d1example12345.cloudfront.net/images/posters/home-poster.jpg" as="image" />
+        <link rel="preload" href="https://d2h9e6wlbpf4nc.cloudfront.net/images/posters/home-poster.jpg" as="image" />
         
         {/* Meta tags */}
         <meta name="google-site-verification" content="your-verification-code" />

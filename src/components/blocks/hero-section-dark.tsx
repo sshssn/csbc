@@ -142,7 +142,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
     React.useEffect(() => {
       const link = document.createElement('link');
       link.rel = 'preconnect';
-      link.href = 'https://d1example12345.cloudfront.net';
+      link.href = 'https://d2h9e6wlbpf4nc.cloudfront.net';
       link.crossOrigin = 'anonymous';
       document.head.appendChild(link);
       
