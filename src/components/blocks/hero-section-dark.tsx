@@ -11,6 +11,7 @@ import {
   FALLBACK_POSTERS,
   DEFAULT_FALLBACK_POSTER,
   DEFAULT_FALLBACK_VIDEO,
+  DIRECT_VIDEO_SOURCES,
   S3_DOMAIN
 } from '@/config/cloudfront'
 
@@ -46,8 +47,10 @@ interface HeroSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode
 }
 
-// DEBUG: Log the actual video URLs to help diagnose issues
-console.log('S3 Videos:', VIDEO_SOURCES);
+// Remove debug logs in production
+if (process.env.NODE_ENV === 'development') {
+  console.log('CloudFront proxy enabled for videos');
+}
 
 const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
   (
@@ -71,6 +74,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
     const pathname = usePathname() as ValidPath;
     const [s3Failed, setS3Failed] = React.useState(false);
     const [isVideoLoaded, setIsVideoLoaded] = React.useState(false);
+    const [videoReady, setVideoReady] = React.useState(false);
     const videoRef = React.useRef<HTMLVideoElement>(null);
 
     // Get the correct video URL based on path and S3 status
@@ -97,34 +101,44 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
         : DEFAULT_POSTER;
     }, [pathname, s3Failed]);
 
+    // Check if we should load video based on connection and preferences
+    const shouldLoadVideo = React.useMemo(() => {
+      // Check for data saver and reduced motion
+      const prefersReducedMotion = typeof window !== 'undefined' 
+        ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
+        : false;
+      const saveData = typeof navigator !== 'undefined' && navigator.connection?.saveData;
+      
+      // Don't load video if user has data saving or prefers reduced motion
+      return !(prefersReducedMotion || saveData);
+    }, []);
+
     // Handle video loading and errors
     React.useEffect(() => {
-      if (videoRef.current) {
+      if (videoRef.current && shouldLoadVideo) {
         const video = videoRef.current;
         
         const handleLoadedData = () => {
           setIsVideoLoaded(true);
+          setVideoReady(true);
+          
           // Try to play the video
           const playPromise = video.play();
           
           if (playPromise !== undefined) {
             playPromise.catch((error) => {
-              console.error('Video play error:', error);
               // If autoplay fails, try muted autoplay
               video.muted = true;
               video.play().catch((err) => {
-                console.error('Muted autoplay failed:', err);
-                // If CloudFront is failing, switch to local files
+                // If still failing, switch to local files
                 setS3Failed(true);
               });
             });
           }
         };
 
-        const handleError = (e: any) => {
-          console.error('Video error:', e);
+        const handleError = () => {
           if (!s3Failed) {
-            console.log('CloudFront video failed, switching to local file');
             setS3Failed(true);
           }
         };
@@ -137,16 +151,43 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
           video.removeEventListener('error', handleError);
         };
       }
-    }, [videoUrl, s3Failed]);
+    }, [videoUrl, s3Failed, shouldLoadVideo]);
 
-    // Force fallback to local videos on mobile
+    // Implement lazy loading
     React.useEffect(() => {
-      const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
-      if (isMobileDevice && !s3Failed) {
-        // On mobile, preemptively use local videos due to CloudFront CORS issues
-        setS3Failed(true);
+      if (videoRef.current && shouldLoadVideo) {
+        // Use Intersection Observer for lazy loading
+        const options = {
+          rootMargin: '0px',
+          threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            // Only load video when in viewport
+            if (entry.isIntersecting && videoRef.current) {
+              // Start loading the video
+              videoRef.current.setAttribute('preload', 'auto');
+              // Set the proper sources
+              const currentSource = videoRef.current.querySelector('source');
+              if (currentSource) {
+                currentSource.setAttribute('src', videoUrl);
+                videoRef.current.load();
+              }
+              
+              observer.unobserve(videoRef.current);
+            }
+          });
+        }, options);
+
+        observer.observe(videoRef.current);
+        return () => {
+          if (videoRef.current) {
+            observer.unobserve(videoRef.current);
+          }
+        };
       }
-    }, [s3Failed]);
+    }, [videoUrl, shouldLoadVideo]);
 
     return (
       <div className={cn("relative min-h-screen flex flex-col", className)} ref={ref} {...props}>
@@ -160,27 +201,29 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
           {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-gray-900/80 to-black/80" />
           
-          {/* Video element */}
-          <video
-            ref={videoRef}
-            key={videoUrl}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            className="absolute top-0 left-0 h-full w-full object-cover brightness-[0.7]"
-            poster={posterUrl}
-            onError={(e) => {
-              console.error('Video error event:', e);
-              if (!s3Failed) {
+          {/* Video with lazy loading and optimization */}
+          {shouldLoadVideo && (
+            <video
+              ref={videoRef}
+              autoPlay={false}
+              loop
+              muted
+              playsInline
+              preload="none"
+              className={cn(
+                "absolute top-0 left-0 h-full w-full object-cover brightness-[0.7]",
+                videoReady ? "opacity-100" : "opacity-0",
+                "transition-opacity duration-500"
+              )}
+              poster={posterUrl}
+              onError={() => {
                 setS3Failed(true);
-              }
-            }}
-          >
-            <source src={videoUrl} type="video/mp4" />
-            <source src={s3Failed ? videoUrl : FALLBACK_VIDEO_SOURCES[pathname as ValidPath] || DEFAULT_FALLBACK_VIDEO} type="video/mp4" />
-          </video>
+              }}
+            >
+              <source src="" type="video/mp4" />
+              {/* No source initially, will be set by intersection observer */}
+            </video>
+          )}
         </div>
         
         <section className="relative max-w-full mx-auto z-10 flex-grow flex items-center justify-center">
@@ -197,7 +240,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                 </span>
               </h2>
               <div className="bg-white/10 dark:bg-gray-800/10 backdrop-blur-md rounded-full px-3 py-2 md:px-5 md:py-3 sm:px-7 sm:py-4 inline-block shadow-lg border border-white/10 w-[90vw] md:w-auto max-w-full">
-                <div className="max-w-full mx-auto font-medium tracking-wide text-xs md:text-sm sm:text-base px-2">
+                <div className="max-w-full mx-auto font-medium tracking-wide text-xs md:text-sm sm:text-base px-2 text-white dark:text-white">
                   {description}
                 </div>
               </div>
