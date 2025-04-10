@@ -75,7 +75,34 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
     const [s3Failed, setS3Failed] = React.useState(false);
     const [isVideoLoaded, setIsVideoLoaded] = React.useState(false);
     const [videoReady, setVideoReady] = React.useState(false);
+    const [shouldLoadVideo, setShouldLoadVideo] = React.useState(false);
+    const [isMobile, setIsMobile] = React.useState(false);
     const videoRef = React.useRef<HTMLVideoElement>(null);
+
+    // Initialize browser-specific states
+    React.useEffect(() => {
+      // Check for data saver and reduced motion
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const saveData = navigator.connection?.saveData;
+      
+      // Check device and connection type
+      const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+      const isSlowConnection = navigator.connection ? 
+        (navigator.connection.effectiveType === 'slow-2g' || 
+         navigator.connection.effectiveType === '2g' || 
+         navigator.connection.effectiveType === '3g') : false;
+      
+      setIsMobile(isMobileDevice);
+      
+      // For very slow connections or smaller screens, don't load video
+      if (isSlowConnection && isMobileDevice) {
+        setShouldLoadVideo(false);
+        return;
+      }
+      
+      // Don't load video if user has data saving or prefers reduced motion
+      setShouldLoadVideo(!(prefersReducedMotion || saveData));
+    }, []);
 
     // Get the correct video URL based on path and S3 status
     const videoUrl = React.useMemo(() => {
@@ -101,35 +128,8 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
         : DEFAULT_POSTER;
     }, [pathname, s3Failed]);
 
-    // Check if we should load video based on connection and preferences
-    const shouldLoadVideo = React.useMemo(() => {
-      // Check for data saver and reduced motion
-      const prefersReducedMotion = typeof window !== 'undefined' 
-        ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
-        : false;
-      const saveData = typeof navigator !== 'undefined' && navigator.connection?.saveData;
-      
-      // Check device and connection type
-      const isMobileDevice = typeof navigator !== 'undefined' ? 
-        /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768 : false;
-      const isSlowConnection = typeof navigator !== 'undefined' && navigator.connection ? 
-        (navigator.connection.effectiveType === 'slow-2g' || 
-         navigator.connection.effectiveType === '2g' || 
-         navigator.connection.effectiveType === '3g') : false;
-      
-      // For very slow connections or smaller screens, don't load video
-      if (isSlowConnection && isMobileDevice) {
-        return false;
-      }
-      
-      // Don't load video if user has data saving or prefers reduced motion
-      return !(prefersReducedMotion || saveData);
-    }, []);
-
     // Modified video source for mobile to use lower resolution
     const optimizedVideoUrl = React.useMemo(() => {
-      const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
-      
       // For mobile, use a different path that contains mobile-optimized versions
       if (isMobile && videoUrl && !s3Failed) {
         // Replace video path to use mobile optimized version (assuming these exist)
@@ -137,7 +137,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
       }
       
       return videoUrl;
-    }, [videoUrl, s3Failed]);
+    }, [videoUrl, s3Failed, isMobile]);
 
     // Handle video loading and errors
     React.useEffect(() => {
@@ -145,7 +145,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
         const video = videoRef.current;
         
         // Set lower resolution and quality for mobile
-        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+        if (isMobile) {
           video.setAttribute('playsinline', '');
           video.muted = true;
           video.setAttribute('preload', 'none');
@@ -184,7 +184,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
           video.removeEventListener('error', handleError);
         };
       }
-    }, [optimizedVideoUrl, s3Failed, shouldLoadVideo]);
+    }, [optimizedVideoUrl, s3Failed, shouldLoadVideo, isMobile]);
 
     // Implement lazy loading
     React.useEffect(() => {
