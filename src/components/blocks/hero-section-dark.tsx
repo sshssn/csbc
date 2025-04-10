@@ -10,6 +10,7 @@ import {
   FALLBACK_VIDEO_SOURCES,
   FALLBACK_POSTERS,
   DEFAULT_FALLBACK_POSTER,
+  DEFAULT_FALLBACK_VIDEO,
   S3_DOMAIN
 } from '@/config/cloudfront'
 
@@ -107,16 +108,23 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
           const playPromise = video.play();
           
           if (playPromise !== undefined) {
-            playPromise.catch(() => {
+            playPromise.catch((error) => {
+              console.error('Video play error:', error);
               // If autoplay fails, try muted autoplay
               video.muted = true;
-              video.play().catch(console.error);
+              video.play().catch((err) => {
+                console.error('Muted autoplay failed:', err);
+                // If CloudFront is failing, switch to local files
+                setS3Failed(true);
+              });
             });
           }
         };
 
-        const handleError = () => {
+        const handleError = (e: any) => {
+          console.error('Video error:', e);
           if (!s3Failed) {
+            console.log('CloudFront video failed, switching to local file');
             setS3Failed(true);
           }
         };
@@ -130,6 +138,15 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
         };
       }
     }, [videoUrl, s3Failed]);
+
+    // Force fallback to local videos on mobile
+    React.useEffect(() => {
+      const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+      if (isMobileDevice && !s3Failed) {
+        // On mobile, preemptively use local videos due to CloudFront CORS issues
+        setS3Failed(true);
+      }
+    }, [s3Failed]);
 
     return (
       <div className={cn("relative min-h-screen flex flex-col", className)} ref={ref} {...props}>
@@ -154,8 +171,15 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
             preload="auto"
             className="absolute top-0 left-0 h-full w-full object-cover brightness-[0.7]"
             poster={posterUrl}
+            onError={(e) => {
+              console.error('Video error event:', e);
+              if (!s3Failed) {
+                setS3Failed(true);
+              }
+            }}
           >
             <source src={videoUrl} type="video/mp4" />
+            <source src={s3Failed ? videoUrl : FALLBACK_VIDEO_SOURCES[pathname as ValidPath] || DEFAULT_FALLBACK_VIDEO} type="video/mp4" />
           </video>
         </div>
         

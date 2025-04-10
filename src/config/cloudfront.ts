@@ -1,21 +1,21 @@
 /**
- * CloudFront CDN configuration for optimized asset delivery
+ * S3/CloudFront configuration for optimized asset delivery
  */
 
-// CloudFront distribution domain
-export const CLOUDFRONT_DOMAIN = 'https://d2h9e6wlbpf4nc.cloudfront.net';
+// Cloud configuration
+export const S3_DOMAIN = 'https://d2h9e6wlbpf4nc.cloudfront.net';
 
-// Video mapping to CloudFront
+// Video mapping to S3
 export const VIDEO_SOURCES = {
-  "/": `${CLOUDFRONT_DOMAIN}/videos/home-hero.mp4`,
-  "/about-us": `${CLOUDFRONT_DOMAIN}/videos/about-us-hero.mp4`,
-  "/sustainability": `${CLOUDFRONT_DOMAIN}/videos/sustainability-hero.mp4`,
-  "/services": `${CLOUDFRONT_DOMAIN}/videos/services-hero.mp4`,
-  "/events/upcoming": `${CLOUDFRONT_DOMAIN}/videos/events-hero.mp4`,
-  "/contact-us": `${CLOUDFRONT_DOMAIN}/videos/contact-us-hero.mp4`,
+  "/": `${S3_DOMAIN}/videos/home-hero.mp4`,
+  "/about-us": `${S3_DOMAIN}/videos/about-hero.mp4`,
+  "/sustainability": `${S3_DOMAIN}/videos/sustainability-hero.mp4`,
+  "/services": `${S3_DOMAIN}/videos/services-hero.mp4`,
+  "/events/upcoming": `${S3_DOMAIN}/videos/events-hero.mp4`,
+  "/contact-us": `${S3_DOMAIN}/videos/contact-hero.mp4`,
 };
 
-// Fallback to original videos if CloudFront fails
+// Fallback to original videos if S3 fails
 export const FALLBACK_VIDEO_SOURCES = {
   "/": "/video/hero.mp4",
   "/about-us": "/video/hero2.mp4",
@@ -25,31 +25,29 @@ export const FALLBACK_VIDEO_SOURCES = {
   "/contact-us": "/video/hero.mp4",
 };
 
-// Image optimization via CloudFront
-export const getOptimizedImageUrl = (path: string) => {
-  return `${CLOUDFRONT_DOMAIN}/images/${path}`;
-};
+// Default fallback video
+export const DEFAULT_FALLBACK_VIDEO = "/video/hero.mp4";
 
-// Video poster images
+// Video poster images from CloudFront
 export const VIDEO_POSTERS = {
-  "/": `${CLOUDFRONT_DOMAIN}/images/posters/home-poster.jpg`,
-  "/about-us": `${CLOUDFRONT_DOMAIN}/images/posters/about-us-poster.jpg`,
-  "/sustainability": `${CLOUDFRONT_DOMAIN}/images/posters/sustainability-poster.jpg`, 
-  "/services": `${CLOUDFRONT_DOMAIN}/images/posters/services-poster.jpg`,
-  "/events/upcoming": `${CLOUDFRONT_DOMAIN}/images/posters/events-poster.jpg`,
-  "/contact-us": `${CLOUDFRONT_DOMAIN}/images/posters/contact-us-poster.jpg`,
+  "/": `${S3_DOMAIN}/images/posters/home-poster.jpg`,
+  "/about-us": `${S3_DOMAIN}/images/posters/about-poster.jpg`,
+  "/sustainability": `${S3_DOMAIN}/images/posters/sustainability-poster.jpg`, 
+  "/services": `${S3_DOMAIN}/images/posters/services-poster.jpg`,
+  "/events/upcoming": `${S3_DOMAIN}/images/posters/events-poster.jpg`,
+  "/contact-us": `${S3_DOMAIN}/images/posters/contact-poster.jpg`,
 };
 
-// Fallback poster images (local)
+// Fallback posters
 export const FALLBACK_POSTERS = {
-  "/": "/images/hero-poster.jpg",
-  "/about-us": "/images/about-hero-poster.jpg",
-  "/sustainability": "/images/sustainability-hero-poster.jpg",
-  "/services": "/images/services-hero-poster.jpg",
-  "/events/upcoming": "/images/events-hero-poster.jpg",
-  "/contact-us": "/images/contact-hero-poster.jpg",
+  "/": "/images/posters/home-poster.jpg",
+  "/about-us": "/images/posters/about-us-poster.jpg",
+  "/sustainability": "/images/posters/sustainability-poster.jpg", 
+  "/services": "/images/posters/services-poster.jpg",
+  "/events/upcoming": "/images/posters/events-poster.jpg",
+  "/contact-us": "/images/posters/contact-us-poster.jpg",
 };
 
 // Default poster
-export const DEFAULT_POSTER = `${CLOUDFRONT_DOMAIN}/images/posters/default-poster.jpg`;
-export const DEFAULT_FALLBACK_POSTER = "/images/hero-poster.jpg"; 
+export const DEFAULT_POSTER = `${S3_DOMAIN}/images/posters/home-poster.jpg`;
+export const DEFAULT_FALLBACK_POSTER = "/images/posters/home-poster.jpg"; 
