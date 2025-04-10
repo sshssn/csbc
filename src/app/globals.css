@@ -477,3 +477,54 @@
     display: none;
   }
 }
+
+/* Critical CSS for above-the-fold content - this needs to load first */
+.critical-hero-placeholder {
+  position: absolute;
+  inset: 0;
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(to bottom, #111111, #000000);
+  z-index: 0;
+}
+
+.critical-content {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 5000px;
+}
+
+/* Optimize paint time and reduce reflows */
+* {
+  backface-visibility: hidden;
+  text-size-adjust: 100%;
+  box-sizing: border-box;
+}
+
+/* Optimize for JS availability */
+.no-js .js-only {
+  display: none;
+}
+
+.js .no-js-only {
+  display: none;
+}
+
+/* Prioritize LCP on mobile */
+@media screen and (max-width: 768px) {
+  .reduce-motion, 
+  .reduce-motion * {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  
+  /* Reduce rendering work for animations */
+  .animate-optional {
+    animation: none !important;
+  }
+  
+  /* Optimize compositing layers */
+  .will-change-auto {
+    will-change: auto !important;
+  }
+}

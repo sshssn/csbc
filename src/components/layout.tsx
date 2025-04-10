@@ -1,13 +1,34 @@
 'use client'
 
-import { HeroHeader } from './hero5-header'
-import { MobileNavbar } from './mobile-navbar'
+import dynamic from 'next/dynamic'
 import { type ReactNode } from 'react'
-import { GradientTracing } from './ui/gradient-tracing'
 import { usePathname } from 'next/navigation'
+import { GradientTracing } from './ui/gradient-tracing'
+
+// Critical path components loaded immediately
 import { TopBanner } from './top-banner'
-import { BackToTop } from './back-to-top'
-import { Footer } from './ui/footer'
+import { MobileNavbar } from './mobile-navbar'
+
+// Dynamically load non-critical components 
+const HeroHeader = dynamic(() => import('./hero5-header').then(mod => mod.HeroHeader), {
+  ssr: true,
+  loading: () => <div className="h-16 lg:h-20" />
+})
+
+const Footer = dynamic(() => import('./ui/footer').then(mod => mod.Footer), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-background" />
+})
+
+const BackToTop = dynamic(() => import('./back-to-top').then(mod => mod.BackToTop), {
+  ssr: false
+})
+
+// Dynamically import performance optimizations to reduce initial bundle
+const PerformanceOptimizations = dynamic(
+  () => import('./performance-optimizations').then(mod => mod.PerformanceOptimizations),
+  { ssr: false, loading: () => null }
+)
 
 export default function Layout({ children }: { children: ReactNode }) {
     const pathname = usePathname()
@@ -15,6 +36,9 @@ export default function Layout({ children }: { children: ReactNode }) {
 
     return (
         <>
+            {/* Performance Optimizations */}
+            <PerformanceOptimizations />
+            
             {!isCargoTracking && (
                 <>
                     <TopBanner />

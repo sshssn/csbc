@@ -3,16 +3,21 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
+// Optimize font loading
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
   display: "swap",
+  preload: true,
+  fallback: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
+  preload: false, // Don't preload mono font as it's less critical
+  fallback: ['SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
 });
 
 export const viewport: Viewport = {
@@ -65,11 +70,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="no-js">
       <head>
+        {/* Critical preconnects */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://d1example12345.cloudfront.net" crossOrigin="anonymous" />
+        
+        {/* Detect JS availability before page load */}
+        <script dangerouslySetInnerHTML={{
+          __html: `document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js');`
+        }} />
+        
+        {/* Preload critical assets */}
+        <link rel="preload" href="https://d1example12345.cloudfront.net/images/posters/home-poster.jpg" as="image" />
+        
+        {/* Meta tags */}
         <meta name="google-site-verification" content="your-verification-code" />
+        
+        {/* Favicon */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
@@ -80,7 +99,30 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          {/* Minimal critical HTML for fast LCP */}
+          <div id="critical-hero" className="critical-hero-placeholder md:hidden" />
+          
           {children}
+          
+          {/* Add JSON-LD structured data */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "EK360 Cargo",
+                "url": "https://ek360.cargo.com",
+                "logo": "https://ek360.cargo.com/logo.png",
+                "description": "Global logistics and freight solutions",
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressLocality": "Dubai",
+                  "addressCountry": "UAE"
+                }
+              })
+            }}
+          />
         </ThemeProvider>
       </body>
     </html>
