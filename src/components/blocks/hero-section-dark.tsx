@@ -109,14 +109,47 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
         : false;
       const saveData = typeof navigator !== 'undefined' && navigator.connection?.saveData;
       
+      // Check device and connection type
+      const isMobileDevice = typeof navigator !== 'undefined' ? 
+        /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768 : false;
+      const isSlowConnection = typeof navigator !== 'undefined' && navigator.connection ? 
+        (navigator.connection.effectiveType === 'slow-2g' || 
+         navigator.connection.effectiveType === '2g' || 
+         navigator.connection.effectiveType === '3g') : false;
+      
+      // For very slow connections or smaller screens, don't load video
+      if (isSlowConnection && isMobileDevice) {
+        return false;
+      }
+      
       // Don't load video if user has data saving or prefers reduced motion
       return !(prefersReducedMotion || saveData);
     }, []);
+
+    // Modified video source for mobile to use lower resolution
+    const optimizedVideoUrl = React.useMemo(() => {
+      const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
+      
+      // For mobile, use a different path that contains mobile-optimized versions
+      if (isMobile && videoUrl && !s3Failed) {
+        // Replace video path to use mobile optimized version (assuming these exist)
+        return videoUrl.replace('.mp4', '-mobile.mp4');
+      }
+      
+      return videoUrl;
+    }, [videoUrl, s3Failed]);
 
     // Handle video loading and errors
     React.useEffect(() => {
       if (videoRef.current && shouldLoadVideo) {
         const video = videoRef.current;
+        
+        // Set lower resolution and quality for mobile
+        if (typeof window !== 'undefined' && window.innerWidth < 768) {
+          video.setAttribute('playsinline', '');
+          video.muted = true;
+          video.setAttribute('preload', 'none');
+        }
         
         const handleLoadedData = () => {
           setIsVideoLoaded(true);
@@ -151,15 +184,15 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
           video.removeEventListener('error', handleError);
         };
       }
-    }, [videoUrl, s3Failed, shouldLoadVideo]);
+    }, [optimizedVideoUrl, s3Failed, shouldLoadVideo]);
 
     // Implement lazy loading
     React.useEffect(() => {
       if (videoRef.current && shouldLoadVideo) {
         // Use Intersection Observer for lazy loading
         const options = {
-          rootMargin: '0px',
-          threshold: 0.1
+          rootMargin: '100px', // Load when within 100px of viewport
+          threshold: 0.01
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -168,10 +201,11 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
             if (entry.isIntersecting && videoRef.current) {
               // Start loading the video
               videoRef.current.setAttribute('preload', 'auto');
-              // Set the proper sources
-              const currentSource = videoRef.current.querySelector('source');
-              if (currentSource) {
-                currentSource.setAttribute('src', videoUrl);
+              
+              // Set the proper source
+              const source = videoRef.current.querySelector('source');
+              if (source) {
+                source.setAttribute('src', optimizedVideoUrl);
                 videoRef.current.load();
               }
               
@@ -187,7 +221,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
           }
         };
       }
-    }, [videoUrl, shouldLoadVideo]);
+    }, [optimizedVideoUrl, shouldLoadVideo]);
 
     return (
       <div className={cn("relative min-h-screen flex flex-col", className)} ref={ref} {...props}>
@@ -202,7 +236,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
           <div className="absolute inset-0 bg-gradient-to-b from-gray-900/80 to-black/80" />
           
           {/* Video with lazy loading and optimization */}
-          {shouldLoadVideo && (
+          {shouldLoadVideo ? (
             <video
               ref={videoRef}
               autoPlay={false}
@@ -212,7 +246,7 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
               preload="none"
               className={cn(
                 "absolute top-0 left-0 h-full w-full object-cover brightness-[0.7]",
-                videoReady ? "opacity-100" : "opacity-0",
+                videoReady ? "opacity-100" : "opacity-0", 
                 "transition-opacity duration-500"
               )}
               poster={posterUrl}
@@ -223,6 +257,12 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
               <source src="" type="video/mp4" />
               {/* No source initially, will be set by intersection observer */}
             </video>
+          ) : (
+            // Static fallback for when video is disabled
+            <div 
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${posterUrl})` }}
+            />
           )}
         </div>
         

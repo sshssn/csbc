@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Layout from "@/components/layout";
 import { Package, Search, CheckCircle, Clock, Truck, Ship, Plane } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -119,8 +119,16 @@ export function CargoTracking({ trackingNumber: initialTrackingNumber }: CargoTr
   const [shipment, setShipment] = useState<Shipment | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [searchAttempted, setSearchAttempted] = useState(false);
 
-  const handleTracking = () => {
+  // Immediately track the shipment if an initial tracking number is provided
+  useEffect(() => {
+    if (initialTrackingNumber) {
+      handleTracking();
+    }
+  }, [initialTrackingNumber]);
+
+  const handleTracking = useCallback(() => {
     if (!trackingNumber.trim()) {
       setError('Please enter a tracking number');
       return;
@@ -128,8 +136,10 @@ export function CargoTracking({ trackingNumber: initialTrackingNumber }: CargoTr
 
     setLoading(true);
     setError('');
+    setSearchAttempted(true);
 
     // Simulate API call with a timeout
+    // Using a shorter timeout to improve perceived performance
     setTimeout(() => {
       const result = mockShipments[trackingNumber as keyof typeof mockShipments];
       if (result) {
@@ -140,7 +150,14 @@ export function CargoTracking({ trackingNumber: initialTrackingNumber }: CargoTr
         setError('Tracking number not found. Please verify and try again.');
       }
       setLoading(false);
-    }, 1500);
+    }, 800); // Reduced from 1500ms to 800ms for faster response
+  }, [trackingNumber]);
+
+  // Handle Enter key press in the input field
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleTracking();
+    }
   };
 
   const getStatusIcon = (transportMode: string) => {
@@ -187,22 +204,24 @@ export function CargoTracking({ trackingNumber: initialTrackingNumber }: CargoTr
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-24">
-        <h1 className="text-4xl font-bold mb-6 text-center">Cargo Tracking</h1>
-        <p className="text-lg text-center max-w-3xl mx-auto mb-16">
+      <div className="container mx-auto px-4 py-12 md:py-24">
+        <h1 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-center">Cargo Tracking</h1>
+        <p className="text-base md:text-lg text-center max-w-3xl mx-auto mb-8 md:mb-16">
           Track your shipment in real-time with EK360 Cargo&apos;s advanced tracking system. 
           Enter your tracking number to get detailed information about your cargo.
         </p>
 
         <div className="max-w-3xl mx-auto">
-          <Card className="p-6 mb-8">
-            <div className="flex flex-col md:flex-row gap-4">
+          <Card className="p-4 md:p-6 mb-6 md:mb-8 shadow-md">
+            <div className="flex flex-col md:flex-row gap-3 md:gap-4">
               <div className="relative flex-grow">
                 <Input
                   placeholder="Enter your tracking number (e.g., EK123456789)"
                   value={trackingNumber}
                   onChange={(e) => setTrackingNumber(e.target.value)}
+                  onKeyPress={handleKeyPress}
                   className="pl-10 h-12 w-full"
+                  aria-label="Tracking number input"
                 />
                 <Package className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
               </div>
@@ -210,6 +229,7 @@ export function CargoTracking({ trackingNumber: initialTrackingNumber }: CargoTr
                 onClick={handleTracking} 
                 className="h-12 px-6"
                 disabled={loading}
+                aria-label="Track shipment"
               >
                 {loading ? (
                   <span className="flex items-center">
@@ -234,7 +254,7 @@ export function CargoTracking({ trackingNumber: initialTrackingNumber }: CargoTr
               </div>
             )}
 
-            <div className="mt-6 text-sm text-gray-500">
+            <div className="mt-4 md:mt-6 text-sm text-gray-500">
               <p>For demo purposes, try one of these tracking numbers:</p>
               <ul className="mt-2 list-disc pl-5 space-y-1">
                 <li><code className="bg-gray-100 px-1 py-0.5 rounded">EK123456789</code> - In Transit (Road)</li>
@@ -244,17 +264,31 @@ export function CargoTracking({ trackingNumber: initialTrackingNumber }: CargoTr
             </div>
           </Card>
 
-          {shipment && (
-            <Card className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold flex items-center">
+          {loading && (
+            <div className="flex justify-center my-12">
+              <GradientTracing width={40} height={40} />
+            </div>
+          )}
+
+          {!loading && searchAttempted && !shipment && !error && (
+            <Card className="p-6 text-center">
+              <Package className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+              <h3 className="text-xl font-semibold mb-2">No Results Found</h3>
+              <p className="text-gray-500">We couldn't find any shipment with this tracking number. Please verify and try again.</p>
+            </Card>
+          )}
+
+          {!loading && shipment && (
+            <Card className="p-4 md:p-6 shadow-md">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-4 md:mb-6">
+                <h2 className="text-xl md:text-2xl font-bold flex items-center">
                   {getStatusIcon(shipment.transportMode)}
                   <span className="ml-2">Shipment Details</span>
                 </h2>
                 {getStatusBadge(shipment.status)}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-6">
                 <div>
                   <h3 className="text-sm text-gray-500 mb-1">Origin</h3>
                   <p className="font-medium">{shipment.origin}</p>
@@ -284,7 +318,7 @@ export function CargoTracking({ trackingNumber: initialTrackingNumber }: CargoTr
               </div>
 
               <h3 className="font-bold mb-3 border-b pb-2">Tracking History</h3>
-              <div className="space-y-4">
+              <div className="space-y-3 md:space-y-4">
                 {shipment.trackingHistory.map((event: TrackingHistoryItem, index: number) => (
                   <div key={index} className="flex items-start">
                     <div className="mt-1 mr-3 h-4 w-4 rounded-full bg-blue-500"></div>

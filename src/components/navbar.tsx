@@ -3,8 +3,8 @@ import { Logo } from "@/components/logo"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { Menu, X } from "lucide-react"
 import { useState, useEffect, useCallback } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -48,12 +48,24 @@ export function Navbar() {
     setIsMenuOpen(false)
   }, [pathname])
 
+  // Prevent scrolling when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMenuOpen])
+
   return (
     <nav 
       className={cn(
-        "fixed top-0 z-50 w-full backdrop-blur-md transition-all duration-300 border-b dark:border-gray-800 shadow-sm",
+        "fixed top-0 z-50 w-full transition-all duration-300 border-b dark:border-gray-800",
         visible ? "translate-y-0" : "-translate-y-full",
-        isMenuOpen ? "bg-white dark:bg-black" : "bg-white/90 dark:bg-black/90",
+        isMenuOpen ? "bg-white/95 backdrop-blur-xl dark:bg-black/95" : "bg-white/90 backdrop-blur-md dark:bg-black/90",
         isScrolled ? "shadow-md" : ""
       )}
     >
@@ -88,44 +100,91 @@ export function Navbar() {
               <Link href="/cargo-tracking">Track Shipment</Link>
             </GradientButton>
             
-            {/* Mobile Menu Button - Optimized for speed */}
+            {/* Modern Hamburger Button */}
             <button
               aria-label="Toggle menu"
-              className="md:hidden p-1.5 text-gray-700 dark:text-gray-400 hover:text-primary focus:outline-none"
+              className="flex md:hidden justify-center items-center w-10 h-10 rounded-full bg-primary/5 focus:outline-none"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              <div className="w-6 h-6 relative flex justify-center items-center">
+                <span
+                  className={`absolute block h-0.5 w-5 transform transition duration-300 ease-in-out rounded-full bg-gray-700 dark:bg-gray-300 ${
+                    isMenuOpen ? "rotate-45" : "-translate-y-1.5"
+                  }`}
+                />
+                <span
+                  className={`absolute block h-0.5 transform transition duration-300 ease-in-out rounded-full bg-gray-700 dark:bg-gray-300 ${
+                    isMenuOpen ? "opacity-0 w-0" : "opacity-100 w-5"
+                  }`}
+                />
+                <span
+                  className={`absolute block h-0.5 w-5 transform transition duration-300 ease-in-out rounded-full bg-gray-700 dark:bg-gray-300 ${
+                    isMenuOpen ? "-rotate-45" : "translate-y-1.5"
+                  }`}
+                />
+              </div>
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu - Slide transition for smoothness */}
-        <div 
-          className={cn(
-            "md:hidden overflow-hidden transition-all duration-300 ease-in-out border-t dark:border-gray-800",
-            isMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
-          )}
-        >
-          <div className="px-3 py-2 space-y-1">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  "block px-3 py-2 text-sm transition-colors hover:text-primary rounded-md",
-                  pathname === item.href
-                    ? "text-primary font-medium bg-gray-100 dark:bg-gray-900"
-                    : "text-gray-700 dark:text-gray-400 hover:text-primary/80 hover:bg-gray-50 dark:hover:bg-gray-900/50"
-                )}
+        {/* Mobile Menu with Animations */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0, overflow: 'hidden' }}
+              animate={{ opacity: 1, height: 'auto', overflow: 'hidden' }}
+              exit={{ opacity: 0, height: 0, overflow: 'hidden' }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="md:hidden border-t dark:border-gray-800 bg-white/95 backdrop-blur-xl dark:bg-black/95"
+            >
+              <motion.div 
+                className="px-4 py-4 space-y-1"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.1, duration: 0.2 }}
               >
-                {item.name}
-              </Link>
-            ))}
-            <GradientButton asChild className="w-full h-9 mt-2 text-sm bg-gradient-to-r from-primary via-primary/90 to-primary hover:from-primary/90 hover:via-primary/80 hover:to-primary/90">
-              <Link href="/cargo-tracking">Track Shipment</Link>
-            </GradientButton>
-          </div>
-        </div>
+                {navigation.map((item, index) => (
+                  <motion.div
+                    key={item.name}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.05 * index, duration: 0.2 }}
+                  >
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "block px-3 py-3 text-sm transition-colors hover:text-primary rounded-md",
+                        pathname === item.href
+                          ? "text-primary font-medium bg-gray-100/80 dark:bg-gray-900/80"
+                          : "text-gray-700 dark:text-gray-400 hover:text-primary/80 hover:bg-gray-50/80 dark:hover:bg-gray-900/50"
+                      )}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  </motion.div>
+                ))}
+                
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2, duration: 0.2 }}
+                  className="pt-2 pb-1"
+                >
+                  <div className="relative overflow-hidden rounded-md p-[1.5px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+                    <Link 
+                      href="/cargo-tracking"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="flex h-10 w-full items-center justify-center rounded-[6px] bg-white dark:bg-gray-950 px-3 py-2 text-sm font-medium text-gray-900 dark:text-white transition-colors hover:bg-gray-50/90 dark:hover:bg-gray-900/90"
+                    >
+                      Track Shipment
+                    </Link>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   )

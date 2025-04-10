@@ -30,7 +30,7 @@ export default function AboutUs() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Layout>
-        {/* Hero Section with Stats */}
+        {/* Hero Section without Stats for proper full video background */}
         <HeroSection 
           videoSrc="/video/hero2.mp4"
           title="Your Global Logistics Partner."
@@ -43,28 +43,32 @@ export default function AboutUs() {
           }
           ctaText="Discover Our Services"
           ctaHref="/services"
-        >
-          {/* Stats Cards with proper mobile spacing */}
-          <div className="mt-16 sm:mt-20 md:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {stats.map((value, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white/80 dark:bg-black/50 backdrop-blur-md p-6 rounded-xl border border-white/20 dark:border-gray-800/50 shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <value.icon className="w-10 h-10 text-primary mb-4" />
-                <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{value.title}</h3>
-                <p className="text-gray-700 dark:text-gray-300">{value.desc}</p>
-              </motion.div>
-            ))}
+        />
+
+        {/* Stats Cards Section - Separate from hero for better mobile display */}
+        <section className="relative z-10 py-12 md:py-16 bg-gradient-to-b from-gray-900 to-gray-900/90 dark:from-black dark:to-black/95 -mt-20 md:-mt-24">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+              {stats.map((value, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-white/80 dark:bg-black/50 backdrop-blur-md p-6 rounded-xl border border-white/20 dark:border-gray-800/50 shadow-lg hover:shadow-xl transition-shadow"
+                >
+                  <value.icon className="w-10 h-10 text-primary mb-4" />
+                  <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{value.title}</h3>
+                  <p className="text-gray-700 dark:text-gray-300">{value.desc}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </HeroSection>
+        </section>
 
         {/* CEO Message Section - Fixed for mobile */}
-        <section className="py-16 sm:py-20 bg-gray-50 dark:bg-black/50 mt-12 sm:mt-0">
+        <section className="py-16 sm:py-20 bg-gray-50 dark:bg-black/50">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-12 items-center">
