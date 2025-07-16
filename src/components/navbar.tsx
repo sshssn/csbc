@@ -16,6 +16,7 @@ const navigation = [
   { name: "Contact", href: "/contact-us" },
 ]
 
+
 export function Navbar() {
   const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
