@@ -18,7 +18,7 @@ export default function Content5() {
                     <div className="absolute -inset-1 rounded-lg blur-md bg-gradient-to-r from-primary/20 via-purple-500/20 to-primary/20"></div>
                     <div className="relative bg-white dark:bg-gray-900 p-8 rounded-lg shadow-xl">
                         <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                            Building <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600">Excellence</span> in Construction
+                            Building <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-purple-600" style={{ WebkitTextFillColor: 'initial' }}>Excellence</span> in Construction
                         </h2>
                         <p className="text-gray-600 dark:text-gray-300 text-lg">
                             Specializing in luxury villas and warehouse construction with sustainable building practices across the UAE

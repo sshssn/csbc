@@ -91,7 +91,7 @@ export default function SustainabilityPage() {
       <Layout>
         {/* Hero Section - UNTOUCHED */}
         <HeroSection 
-          videoSrc="/video/hero3.mp4"
+          videoSrc="https://mhy2q3qipm.ufs.sh/f/nND0FwvkWb7XCEvCwIaSRlBiutDohmJ105kjbZqnPeAMaTFX"
           title="Sustainable Construction."
           subtitle={{
             regular: "Building the Future, ",
@@ -315,7 +315,7 @@ export default function SustainabilityPage() {
                   className="bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800"
                 >
                   <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-white">
-                    Our <GradientText as="span" className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500">Sustainability</GradientText> Goals
+                    Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500">Sustainability</span> Goals
                   </h2>
                   <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
                     Our journey towards sustainability is ongoing. We set ambitious goals, measure our progress, and continually seek new ways to build responsibly and reduce our impact on the environment.

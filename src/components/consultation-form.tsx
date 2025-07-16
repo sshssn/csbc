@@ -3,14 +3,30 @@ import { GradientButton } from '@/components/ui/gradient-button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { motion } from 'framer-motion'
+import { Turnstile } from '@/components/ui/turnstile'
+import { useTheme } from 'next-themes'
 
 export function ConsultationForm() {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const { resolvedTheme } = useTheme()
+
+  const handleTurnstileSuccess = (token: string) => {
+    setTurnstileToken(token)
+  }
+
+  const handleTurnstileError = () => {
+    setTurnstileToken('')
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!turnstileToken) {
+      alert('Please complete the security check')
+      return
+    }
     // Here you would typically send the data to your backend
     setSubmitted(true)
     setTimeout(() => setSubmitted(false), 3000)
@@ -43,7 +59,16 @@ export function ConsultationForm() {
             className="w-full min-h-[100px]"
           />
         </div>
-        <GradientButton type="submit" className="w-full">
+        {/* Cloudflare Turnstile */}
+        <div className="flex justify-center">
+          <Turnstile
+            siteKey="0x4AAAAAAABkMYinukE5OysO" // Replace with your actual site key
+            onSuccess={handleTurnstileSuccess}
+            onError={handleTurnstileError}
+            theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
+          />
+        </div>
+        <GradientButton type="submit" className="w-full" disabled={!turnstileToken}>
           {submitted ? 'Thank you!' : 'Send Request'}
         </GradientButton>
       </form>

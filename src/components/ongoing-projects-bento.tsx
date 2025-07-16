@@ -39,10 +39,10 @@ export default function OngoingProjectsBento() {
           key={project.key}
           title={null}
           description={
-            <div className="flex flex-col md:flex-row items-stretch w-full">
+            <div className="flex flex-col lg:flex-row items-stretch w-full gap-6">
               {/* Left: Image */}
-              <div className="md:w-1/2 w-full flex items-center justify-center">
-                <div className="relative w-full h-80 md:h-[28rem] overflow-hidden rounded-xl bg-neutral-100 dark:bg-neutral-900" style={{ aspectRatio: '4/3', maxWidth: '100%' }}>
+              <div className="lg:w-1/2 w-full flex items-center justify-center">
+                <div className="relative w-full h-64 sm:h-80 md:h-[28rem] overflow-hidden rounded-xl bg-neutral-100 dark:bg-neutral-900" style={{ aspectRatio: '4/3', maxWidth: '100%' }}>
                   <Image
                     src={project.image}
                     alt={project.name}
@@ -54,7 +54,7 @@ export default function OngoingProjectsBento() {
                 </div>
               </div>
               {/* Right: Name and UI */}
-              <div className="md:w-1/2 w-full flex flex-col justify-center px-0 md:px-12 mt-6 md:mt-0">
+              <div className="lg:w-1/2 w-full flex flex-col justify-center px-4 sm:px-6 lg:px-12 mt-6 lg:mt-0">
                 <div className="relative flex items-start group animate-fade-in">
                   {/* Accent bar */}
                   <div className="w-1 h-full rounded-full bg-gradient-to-b from-primary to-blue-400 mr-6" />
@@ -67,7 +67,7 @@ export default function OngoingProjectsBento() {
                         Villa Project
                       </span>
                     </div>
-                    <h3 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-1">{project.name}</h3>
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-white mb-1">{project.name}</h3>
                   </div>
                 </div>
               </div>

@@ -10,7 +10,7 @@ import { Mail, Phone, MapPin, Send, Globe2, Clock, ArrowRight, CheckCircle, Awar
 import { HeroSection } from "@/components/blocks/hero-section-dark"
 import Image from "next/image"
 import { BackToTop } from "@/components/back-to-top"
-import { useForm, ValidationError } from '@formspree/react'
+
 import { Label } from '@/components/ui/label'
 import { Card } from '@/components/ui/card'
 import {
@@ -23,33 +23,69 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic';
 import { useTheme } from 'next-themes';
+import { Turnstile } from '@/components/ui/turnstile'
 
 const Map = dynamic(() => import('@/components/ui/mapbox-map'), { ssr: false });
 
 export default function ContactPage() {
-  const [state, handleSubmit] = useForm("contactForm");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
-  const turnstileRef = useRef<HTMLDivElement>(null);
   const { resolvedTheme } = useTheme();
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && (window as any).turnstile) return;
-    const script = document.createElement('script');
-    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-    script.async = true;
-    document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+  const handleTurnstileSuccess = (token: string) => {
+    setTurnstileToken(token);
+  };
 
-  useEffect(() => {
-    function handleTurnstileSuccess(e: any) {
-      setTurnstileToken(e.detail);
+  const handleTurnstileError = () => {
+    setTurnstileToken("");
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!turnstileToken) {
+      setError("Please complete the security check");
+      return;
     }
-    window.addEventListener('turnstile-success', handleTurnstileSuccess);
-    return () => window.removeEventListener('turnstile-success', handleTurnstileSuccess);
-  }, []);
+
+    setIsSubmitting(true);
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      service: formData.get('service'),
+      message: formData.get('message'),
+      'cf-turnstile-response': turnstileToken,
+    };
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        console.log('Submission successful, Ray ID:', result.rayId);
+      } else {
+        setError(result.error || 'Failed to send message');
+      }
+    } catch (err) {
+      setError('Network error. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <Layout>
@@ -92,20 +128,14 @@ export default function ContactPage() {
                     Fill out the form below and we will get back to you as soon as possible.
                   </p>
                 </div>
-                {state.succeeded ? (
+                {isSubmitted ? (
                   <div className="text-center py-8">
                     <CheckCircle className="mx-auto mb-4 text-green-500" size={48} />
                     <h4 className="text-xl font-semibold mb-2">Thank you!</h4>
                     <p className="text-gray-600 dark:text-gray-300">Your message has been sent. We'll get back to you soon.</p>
                   </div>
                 ) : (
-                  <form className="space-y-6" onSubmit={e => {
-                    if (!turnstileToken) {
-                      e.preventDefault();
-                      return;
-                    }
-                    handleSubmit(e);
-                  }}>
+                  <form className="space-y-6" onSubmit={handleSubmit}>
                     <div className="space-y-4">
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
@@ -120,7 +150,6 @@ export default function ContactPage() {
                       <div className="space-y-2">
                         <Label htmlFor="email">Email</Label>
                         <Input id="email" name="email" type="email" placeholder="Enter your email" required />
-                        <ValidationError prefix="Email" field="email" errors={state.errors} />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="phone">Phone</Label>
@@ -142,24 +171,24 @@ export default function ContactPage() {
                       <div className="space-y-2">
                         <Label htmlFor="message">Message</Label>
                         <Textarea id="message" name="message" placeholder="Type your message here..." required className="resize-none" />
-                        <ValidationError prefix="Message" field="message" errors={state.errors} />
                       </div>
                     </div>
                     {/* Cloudflare Turnstile */}
                     <div className="flex justify-center">
-                      <div
-                        ref={turnstileRef}
-                        className="cf-turnstile"
-                        data-sitekey="pk.eyJ1Ijoic3Noc3NuIiwiYSI6ImNtZDZkN2QybjA2OG0ycXF2aGwyM2VvZnUifQ.qhN6wRL5XGu_GvWmwAjXFQ"
-                        data-callback="onTurnstileSuccess"
-                        data-theme="light"
+                      <Turnstile
+                        siteKey="0x4AAAAAAABkMYinukE5OysO" // Replace with your actual site key
+                        onSuccess={handleTurnstileSuccess}
+                        onError={handleTurnstileError}
+                        theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
                       />
                     </div>
                     <input type="hidden" name="cf-turnstile-response" value={turnstileToken} />
-                    <Button type="submit" className="w-full" disabled={state.submitting}>
-                      {state.submitting ? 'Sending...' : 'Send Message'}
+                    {error && (
+                      <div className="text-red-500 text-sm text-center">{error}</div>
+                    )}
+                    <Button type="submit" className="w-full" disabled={isSubmitting}>
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
                     </Button>
-                    <ValidationError errors={state.errors} />
                   </form>
                 )}
                 <div className="mt-8 text-center text-sm text-gray-500">

@@ -29,7 +29,7 @@ export default function Home() {
         }
         ctaText="Our Solutions"
         ctaHref="#features"
-        videoSrc="/video/hero.mp4"
+        videoSrc="https://mhy2q3qipm.ufs.sh/f/nND0FwvkWb7XUQcqCcBzW3NZpXDofkJSFOrGCH0RxeIy9VAY"
       />
       <Features9 id="features" />
       <Content5 />

@@ -113,7 +113,7 @@ export default function HeroSection() {
                                 setVideoError(true);
                             }}
                         >
-                            <source src="/video/hero.mp4" type="video/mp4" />
+                            <source src="https://mhy2q3qipm.ufs.sh/f/nND0FwvkWb7XUQcqCcBzW3NZpXDofkJSFOrGCH0RxeIy9VAY" type="video/mp4" />
                             Your browser does not support the video tag.
                         </video>
                     )}
@@ -141,20 +141,9 @@ export default function HeroSection() {
                                     We are a privately owned company that provides top-notch logistics and cargo solutions in UAE, KSA, and worldwide.
                                 </TextEffect>
 
-                                <AnimatedGroup
-                                    variants={{
-                                        container: {
-                                            visible: {
-                                                transition: {
-                                                    staggerChildren: 0.05,
-                                                    delayChildren: 0.75,
-                                                },
-                                            },
-                                        },
-                                        ...transitionVariants,
-                                    }}
-                                    className="mt-8 md:mt-12">
-                                </AnimatedGroup>
+                                <div className="mt-8 md:mt-12">
+                                    {/* Content can be added here */}
+                                </div>
                             </div>
                         </div>
                     </section>

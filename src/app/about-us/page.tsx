@@ -34,7 +34,7 @@ export default function AboutUs() {
       <Layout>
         {/* Hero Section with Animated Stats Overlay */}
         <HeroSection 
-          videoSrc="/video/hero2.mp4"
+          videoSrc="https://mhy2q3qipm.ufs.sh/f/nND0FwvkWb7Xh4RDjRGXVqp2Cgry4T3ZlWhRM8jb901nkKzu"
           title="Leading Main Contractors in UAE."
           subtitle={{
             regular: "Building Excellence, ",

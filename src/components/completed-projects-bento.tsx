@@ -132,7 +132,7 @@ function HoverImageSlider({ images, alt }: { images: string[]; alt: string }) {
 
   return (
     <div
-      className="relative w-full h-80 md:h-[28rem] flex items-center justify-center overflow-hidden rounded-xl bg-neutral-100 dark:bg-neutral-900"
+      className="relative w-full h-64 sm:h-80 md:h-[28rem] flex items-center justify-center overflow-hidden rounded-xl bg-neutral-100 dark:bg-neutral-900"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{ aspectRatio: '4/3', maxWidth: '100%' }}
@@ -164,13 +164,13 @@ export default function CompletedProjectsBento() {
           key={villa.key}
           title={null}
           description={
-            <div className="flex flex-col md:flex-row items-stretch w-full">
+            <div className="flex flex-col lg:flex-row items-stretch w-full gap-6">
               {/* Left: Image */}
-              <div className="md:w-1/2 w-full flex items-center justify-center">
+              <div className="lg:w-1/2 w-full flex items-center justify-center">
                 <HoverImageSlider images={villa.images} alt={villa.name} />
               </div>
               {/* Right: Details */}
-              <div className="md:w-1/2 w-full flex flex-col justify-center px-0 md:px-12 mt-6 md:mt-0">
+              <div className="lg:w-1/2 w-full flex flex-col justify-center px-4 sm:px-6 lg:px-12 mt-6 lg:mt-0">
                 <div className="relative flex items-start group animate-fade-in">
                   {/* Accent bar */}
                   <div className="w-1 h-full rounded-full bg-gradient-to-b from-primary to-blue-400 mr-6" />
@@ -183,10 +183,10 @@ export default function CompletedProjectsBento() {
                         {villa.type}
                       </span>
                     </div>
-                    <h3 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white mb-1">{villa.name}</h3>
-                    <div className="text-base text-blue-700 dark:text-blue-300 font-medium mb-2">{villa.location}</div>
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-white mb-1">{villa.name}</h3>
+                    <div className="text-sm sm:text-base text-blue-700 dark:text-blue-300 font-medium mb-2">{villa.location}</div>
                     <div className="border-t border-gray-200 dark:border-gray-700 my-3" />
-                    <p className="text-gray-700 dark:text-gray-200 text-lg leading-relaxed mb-0">{villa.description}</p>
+                    <p className="text-sm sm:text-base lg:text-lg text-gray-700 dark:text-gray-200 leading-relaxed mb-0">{villa.description}</p>
                   </div>
                 </div>
               </div>

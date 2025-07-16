@@ -67,8 +67,8 @@ export default function Layout({ children }: { children: ReactNode }) {
               className="fixed z-50 bg-transparent border-none"
               style={{
                 position: 'fixed',
-                // Move up on mobile so it doesn't overlap with bottom nav
-                bottom: typeof window !== 'undefined' && window.innerWidth <= 640 ? '80px' : '24px',
+                // Move up by 7% on mobile so it doesn't overlap with bottom nav
+                bottom: typeof window !== 'undefined' && window.innerWidth <= 640 ? 'calc(80px + 7vh)' : '24px',
                 left: '24px',
                 zIndex: 1000,
                 padding: 0,

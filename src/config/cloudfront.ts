@@ -29,7 +29,17 @@ export const DIRECT_VIDEO_SOURCES = {
   "/contact-us": `${S3_DOMAIN}/videos/contact-hero.mp4`,
 };
 
-// Fallback to original videos if S3 fails
+// UploadThing video URLs
+export const UPLOADTHING_VIDEO_SOURCES = {
+  "/": "https://mhy2q3qipm.ufs.sh/f/nND0FwvkWb7XUQcqCcBzW3NZpXDofkJSFOrGCH0RxeIy9VAY",
+  "/about-us": "https://mhy2q3qipm.ufs.sh/f/nND0FwvkWb7Xh4RDjRGXVqp2Cgry4T3ZlWhRM8jb901nkKzu",
+  "/sustainability": "https://mhy2q3qipm.ufs.sh/f/nND0FwvkWb7XCEvCwIaSRlBiutDohmJ105kjbZqnPeAMaTFX",
+  "/services": "https://mhy2q3qipm.ufs.sh/f/nND0FwvkWb7XO4v1AJGKAb5g9m7QhRXHFwyv1ltEiVf4P8cj",
+  "/events/upcoming": "https://mhy2q3qipm.ufs.sh/f/nND0FwvkWb7XDotr6ZqMeLcJXG9dUnWbRmQsxDwPBAqOIi38",
+  "/contact-us": "https://mhy2q3qipm.ufs.sh/f/nND0FwvkWb7XUQcqCcBzW3NZpXDofkJSFOrGCH0RxeIy9VAY",
+};
+
+// Fallback to original videos if UploadThing fails
 export const FALLBACK_VIDEO_SOURCES = {
   "/": "/video/hero.mp4",
   "/about-us": "/video/hero2.mp4",
@@ -40,7 +50,7 @@ export const FALLBACK_VIDEO_SOURCES = {
 };
 
 // Default fallback video
-export const DEFAULT_FALLBACK_VIDEO = "/video/hero.mp4";
+export const DEFAULT_FALLBACK_VIDEO = "https://mhy2q3qipm.ufs.sh/f/nND0FwvkWb7XUQcqCcBzW3NZpXDofkJSFOrGCH0RxeIy9VAY";
 
 // Video poster images also using proxy
 export const VIDEO_POSTERS = {
