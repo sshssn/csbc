@@ -1,0 +1,5 @@
+name = "csbc"
+compatibility_date = "2025-07-16"
+
+[site]
+bucket = "./out" 
