@@ -62,7 +62,7 @@ export function ConsultationForm() {
         {/* Cloudflare Turnstile */}
         <div className="flex justify-center">
           <Turnstile
-            siteKey="0x4AAAAAAABkMYinukE5OysO" // Replace with your actual site key
+            siteKey="1x00000000000000000000AA" // Test site key - replace with your actual site key
             onSuccess={handleTurnstileSuccess}
             onError={handleTurnstileError}
             theme={resolvedTheme === 'dark' ? 'dark' : 'light'}

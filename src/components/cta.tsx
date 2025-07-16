@@ -19,7 +19,7 @@ export function CTA() {
               className="max-w-3xl space-y-4"
             >
               <h2 className="text-3xl font-bold sm:text-4xl md:text-5xl">
-                Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500" style={{ WebkitTextFillColor: 'initial' }}>Build</span> Your Dream Project?
+                Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500">Build</span> Your Dream Project?
               </h2>
               <p className="mx-auto max-w-2xl text-gray-600 dark:text-gray-300">
                 Get in touch with our construction experts to discuss your project requirements and discover how we can bring your vision to life.

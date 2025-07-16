@@ -41,14 +41,6 @@ export function Turnstile({
     } else if (typeof window !== 'undefined' && window.turnstile) {
       setIsLoaded(true)
     }
-
-    return () => {
-      // Cleanup script if component unmounts
-      const existingScript = document.querySelector('script[src*="turnstile"]')
-      if (existingScript) {
-        document.head.removeChild(existingScript)
-      }
-    }
   }, [])
 
   useEffect(() => {
@@ -70,12 +62,6 @@ export function Turnstile({
     })
 
     setWidgetId(id)
-
-    return () => {
-      if (widgetId) {
-        window.turnstile.reset(widgetId)
-      }
-    }
   }, [isLoaded, siteKey, theme, onSuccess, onError])
 
   return (

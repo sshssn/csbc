@@ -14,7 +14,7 @@ const gradientButtonVariants = cva(
     "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
     "disabled:pointer-events-none disabled:opacity-50",
     // Static gradient background, no animation
-    "bg-gradient-to-r from-primary to-blue-500",
+    "bg-gradient-to-r from-sky-400 to-blue-500",
   ],
   {
     variants: {

@@ -17,10 +17,9 @@ function GradientText({
   return (
     <Component
       className={cn(
-        'text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500',
+        'text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500',
         className
       )}
-      style={{ WebkitTextFillColor: 'initial' }}
       {...props}
     >
       {children}
