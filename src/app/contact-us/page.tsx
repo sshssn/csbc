@@ -24,12 +24,24 @@ import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic';
 import { useTheme } from 'next-themes';
 import { useForm, ValidationError } from '@formspree/react'
+import { useRouter } from 'next/navigation'
 
 const Map = dynamic(() => import('@/components/ui/mapbox-map'), { ssr: false });
 
 export default function ContactPage() {
   const [state, handleSubmit] = useForm("mblkrzok");
   const { resolvedTheme } = useTheme();
+  const router = useRouter();
+
+  // Redirect to homepage after 3 seconds when form is submitted successfully
+  useEffect(() => {
+    if (state.succeeded) {
+      const timer = setTimeout(() => {
+        router.push('/');
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [state.succeeded, router]);
 
   return (
     <Layout>
@@ -73,10 +85,78 @@ export default function ContactPage() {
                   </p>
                 </div>
                 {state.succeeded ? (
-                  <div className="text-center py-8">
-                    <CheckCircle className="mx-auto mb-4 text-green-500" size={48} />
-                    <h4 className="text-xl font-semibold mb-2">Thank you!</h4>
-                    <p className="text-gray-600 dark:text-gray-300">Your message has been sent. We'll get back to you soon.</p>
+                  <div className="relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-sky-400/10 via-blue-500/10 to-cyan-400/10 rounded-2xl" />
+                    <div className="relative bg-white/80 dark:bg-black/40 backdrop-blur-lg rounded-2xl p-8 border border-white/20 dark:border-black/20">
+                      <div className="text-center space-y-6">
+                        {/* Animated Checkmark */}
+                        <div className="relative">
+                          <motion.div
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ 
+                              type: "spring", 
+                              stiffness: 260, 
+                              damping: 20,
+                              delay: 0.2 
+                            }}
+                            className="w-20 h-20 mx-auto bg-gradient-to-r from-sky-400 to-blue-500 rounded-full flex items-center justify-center"
+                          >
+                            <motion.div
+                              initial={{ pathLength: 0 }}
+                              animate={{ pathLength: 1 }}
+                              transition={{ 
+                                duration: 0.8, 
+                                delay: 0.5,
+                                ease: "easeInOut"
+                              }}
+                            >
+                              <CheckCircle className="w-12 h-12 text-white" />
+                            </motion.div>
+                          </motion.div>
+                          
+                          {/* Ripple effect */}
+                          <motion.div
+                            initial={{ scale: 0, opacity: 0.8 }}
+                            animate={{ scale: 2, opacity: 0 }}
+                            transition={{ 
+                              duration: 1.5, 
+                              delay: 0.8,
+                              repeat: Infinity,
+                              repeatDelay: 2
+                            }}
+                            className="absolute inset-0 bg-gradient-to-r from-sky-400 to-blue-500 rounded-full"
+                          />
+                        </div>
+
+                        {/* Success Message */}
+                        <motion.div
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ delay: 0.6 }}
+                          className="space-y-3"
+                        >
+                          <h4 className="text-2xl font-bold bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent">
+                            Message Sent Successfully!
+                          </h4>
+                          <p className="text-gray-600 dark:text-gray-300 text-lg">
+                            Thank you for reaching out. We'll get back to you within 24 hours.
+                          </p>
+                        </motion.div>
+
+                        {/* Redirect Message */}
+                        <motion.div
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ delay: 0.8 }}
+                          className="pt-4 border-t border-gray-200 dark:border-gray-700"
+                        >
+                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                            Redirecting to homepage in <span className="font-semibold text-sky-500">3 seconds</span>...
+                          </p>
+                        </motion.div>
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   <form className="space-y-6" onSubmit={handleSubmit}>
