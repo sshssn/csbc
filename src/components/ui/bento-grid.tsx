@@ -12,8 +12,8 @@ import {
 import React from "react";
 
 export interface BentoItem {
-    title: string;
-    description: string;
+    title: React.ReactNode;
+    description: React.ReactNode;
     icon?: React.ReactNode;
     status?: string;
     tags?: string[];
@@ -33,15 +33,15 @@ interface BentoGridProps {
 }
 
 interface BentoGridItemProps {
-    title: string;
-    description: string;
+    title: React.ReactNode;
+    description: React.ReactNode;
     header?: React.ReactNode;
     className?: string;
 }
 
 const BentoGrid = ({ children, items, className }: BentoGridProps) => {
     return (
-        <div className={cn("grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6", className)}>
+        <div className={cn("grid grid-cols-1 gap-4 md:gap-6 px-2 sm:px-4", className)}>
             {items?.map((item, idx) => (
                 <BentoGridItem
                     key={`${item.title}-${idx}`}
@@ -74,9 +74,11 @@ const BentoGridItem = ({
                 <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-2">
                     {title}
                 </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                    {description}
-                </p>
+                {typeof description === 'string' ? (
+                  <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{description}</p>
+                ) : (
+                  <div>{description}</div>
+                )}
             </div>
         </div>
     );

@@ -30,14 +30,18 @@ export function Logo({ size = 'medium', className, forceDark = false }: LogoProp
     const dimensions = sizes[size]
 
     if (!mounted) {
-        return <div style={{ width: dimensions.width, height: dimensions.height }} />
+        return (
+            <div style={{ width: dimensions.width, height: dimensions.height }} className="flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded animate-pulse">
+                <div className="w-2/3 h-2/3 bg-gray-300 dark:bg-gray-700 rounded" />
+            </div>
+        );
     }
 
     return (
         <div className={cn("relative inline-block", className)}>
             <Image
                 src={forceDark || resolvedTheme === 'dark' ? '/images/dark.png' : '/images/light.png'}
-                alt="EK360 Cargo Logo"
+                alt="Classic Star Building Logo"
                 width={dimensions.width}
                 height={dimensions.height}
                 className="object-contain"
@@ -88,7 +92,7 @@ export const LogoStroke = ({ className }: { className?: string }) => {
                     strokeLinejoin="round"
                 />
             </svg>
-            <span className="ml-2 font-bold text-lg">EK360 Cargo</span>
+            <span className="ml-2 font-bold text-lg">Classic Star Building</span>
         </div>
     )
 }

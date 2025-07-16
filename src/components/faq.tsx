@@ -10,24 +10,28 @@ import {
 
 const faqs = [
   {
-    question: "What logistics services do you offer?",
-    answer: "We offer comprehensive logistics solutions including air freight, sea freight, land transport, warehousing, project logistics, military logistics, and specialized services for events and luxury goods."
+    question: "What construction services do you offer?",
+    answer: "We offer comprehensive construction services including luxury villa construction, warehouse construction, commercial buildings, industrial facilities, major RCC works, steel structure construction, renovation & retrofitting, and green building solutions."
   },
   {
-    question: "Where do you operate?",
-    answer: "We operate globally with a strong presence in the UAE, KSA, and across the GCC region. Through our network of partners, we can handle shipments worldwide."
+    question: "Where do you operate in the UAE?",
+    answer: "We operate across all Emirates in the UAE including Dubai, Abu Dhabi, Sharjah, Ajman, Umm Al Quwain, Ras Al Khaimah, and Fujairah. We have completed projects in all major cities and industrial areas."
   },
   {
-    question: "How can I track my shipment?",
-    answer: "You can track your shipment in real-time through our online tracking system. Simply enter your tracking number on our cargo tracking page."
+    question: "How long does a typical construction project take?",
+    answer: "Project timelines vary based on size and complexity. A luxury villa typically takes 12-18 months, warehouses 8-12 months, and commercial buildings 16-24 months. We provide detailed project schedules during the planning phase."
   },
   {
-    question: "What types of cargo can you handle?",
-    answer: "We handle all types of cargo including general cargo, perishables, dangerous goods, oversized cargo, luxury items, and specialized military equipment."
+    question: "What types of projects do you specialize in?",
+    answer: "We specialize in luxury villas, warehouse construction, commercial buildings, industrial facilities, major RCC works, and steel structures. Our expertise includes both new construction and renovation projects."
   },
   {
-    question: "Do you provide customs clearance services?",
-    answer: "Yes, we provide comprehensive customs clearance services in all major ports and airports, ensuring smooth and compliant import/export processes."
+    question: "Do you provide sustainable building solutions?",
+    answer: "Yes, we are a leading provider of green building solutions. We use sustainable materials, energy-efficient systems, and can help achieve LEED certification for your projects."
+  },
+  {
+    question: "What is your experience in the construction industry?",
+    answer: "We have been established since 2007 with over 20 years of experience in the UAE construction industry. We have completed 100+ projects and served 100+ satisfied clients across all Emirates."
   }
 ]
 
@@ -40,7 +44,7 @@ export function FAQ() {
             <GradientText as="span">Frequently Asked Questions</GradientText>
           </h2>
           <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Find answers to common questions about our logistics services
+            Find answers to common questions about our construction services
           </p>
         </div>
         <div className="max-w-3xl mx-auto">

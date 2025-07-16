@@ -154,34 +154,6 @@ export default function HeroSection() {
                                         ...transitionVariants,
                                     }}
                                     className="mt-8 md:mt-12">
-                                    <form
-                                        action="/cargo-tracking"
-                                        className="mx-auto max-w-sm">
-                                        <div className="bg-background/20 backdrop-blur-md has-[input:focus]:ring-primary relative grid grid-cols-[1fr_auto] items-center rounded-[calc(var(--radius)+0.5rem)] border border-border/30 pr-2 shadow-lg shadow-primary/5 has-[input:focus]:ring-2 transition-all duration-300">
-                                            <Package2 className="pointer-events-none absolute inset-y-0 left-4 my-auto size-4 text-foreground/80" />
-
-                                            <input
-                                                placeholder="Enter tracking number"
-                                                className="h-12 w-full bg-transparent pl-12 text-foreground placeholder:text-foreground/60 focus:outline-none transition-colors"
-                                                type="text"
-                                            />
-
-                                            <div className="md:pr-1.5 lg:pr-0">
-                                                <Button
-                                                    type="submit"
-                                                    aria-label="search"
-                                                    className="rounded-(--radius)"
-                                                    size="lg"
-                                                >
-                                                    <span className="hidden md:block">Track Now</span>
-                                                    <Search
-                                                        className="relative mx-auto size-5 md:hidden"
-                                                        strokeWidth={2}
-                                                    />
-                                                </Button>
-                                            </div>
-                                        </div>
-                                    </form>
                                 </AnimatedGroup>
                             </div>
                         </div>

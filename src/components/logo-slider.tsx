@@ -7,44 +7,44 @@ import { useTheme } from 'next-themes';
 
 const partnerLogos = [
   {
-    name: 'Emaar',
+    name: 'Emaar Properties',
     lightLogo: '/images/emaar.png',
     darkLogo: '/images/emaar.png',
     width: 100,
     height: 50
   },
   {
-    name: 'Expo Sharjah',
-    lightLogo: '/images/expo-shj-light.svg',
-    darkLogo: '/images/expo-shj-dark.svg',
+    name: 'Nakheel',
+    lightLogo: '/images/nakheel.png',
+    darkLogo: '/images/nakheel.png',
     width: 120,
     height: 50
   },
   {
-    name: 'GDXB',
-    lightLogo: '/images/gdxb.svg',
-    darkLogo: '/images/gdxb.svg',
+    name: 'Dubai Properties',
+    lightLogo: '/images/dubai-properties.png',
+    darkLogo: '/images/dubai-properties.png',
     width: 120,
     height: 50
   },
   {
-    name: 'GES International',
-    lightLogo: '/images/ges.png',
-    darkLogo: '/images/ges.png',
+    name: 'Meraas',
+    lightLogo: '/images/meraas.png',
+    darkLogo: '/images/meraas.png',
     width: 100,
     height: 50
   },
   {
-    name: 'RTA',
-    lightLogo: '/images/rta.png',
-    darkLogo: '/images/rta.png',
+    name: 'Aldar Properties',
+    lightLogo: '/images/aldar.png',
+    darkLogo: '/images/aldar.png',
     width: 100,
     height: 50
   },
   {
-    name: 'Saudi',
-    lightLogo: '/images/saudi.png',
-    darkLogo: '/images/saudi.png',
+    name: 'Sorouh',
+    lightLogo: '/images/sorouh.png',
+    darkLogo: '/images/sorouh.png',
     width: 100,
     height: 50
   }
@@ -76,13 +76,16 @@ export function LogoSlider() {
                 key={index}
                 className="flex items-center justify-center min-w-40 h-20 px-4 py-2 bg-white dark:bg-black rounded-lg shadow-sm"
               >
-                <Image
-                  src={currentTheme === 'dark' ? logo.darkLogo : logo.lightLogo}
-                  alt={logo.name}
-                  width={logo.width}
-                  height={logo.height}
-                  className="max-h-full w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
-                />
+                <div className="flex items-center justify-center w-full h-full">
+                  <div className="text-center">
+                    <div className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                      {logo.name}
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-500">
+                      Construction Partner
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </InfiniteSlider>

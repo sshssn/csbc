@@ -13,7 +13,6 @@ import { GradientButton } from "@/components/ui/gradient-button"
 
 const features = [
   "Door-to-door delivery solutions",
-  "Real-time shipment tracking",
   "Custom clearance services",
   "Specialized cargo handling",
   "Global network coverage",

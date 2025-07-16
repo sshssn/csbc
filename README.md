@@ -1,6 +1,6 @@
-# EK360 Cargo Website
+# Classic Star Building Website
 
-A modern website for EK360 Cargo, a logistics and shipping company serving the GCC region.
+A modern website for Classic Star Building, main contractors in the UAE specializing in luxury villas, warehouses, and major RCC & Steel Works.
 
 ## Features
 
@@ -9,7 +9,6 @@ A modern website for EK360 Cargo, a logistics and shipping company serving the G
 - **Services Page** showcasing the various logistics and shipping services offered
 - **Events Pages** for current and upcoming industry events
 - **Contact Us Page** with a contact form and office locations
-- **Cargo Tracking System** for real-time shipment tracking
 
 ## Tech Stack
 
@@ -43,7 +42,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - `/services` - Services page
 - `/events/current` - Current Events page
 - `/events/upcoming` - Upcoming Events page
-- `/cargo-tracking` - Cargo Tracking system
 
 ## Components
 

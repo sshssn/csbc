@@ -7,18 +7,18 @@ const navigation = {
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about-us' },
     { name: 'Services', href: '/services' },
-    { name: 'Track Cargo', href: '/cargo-tracking' },
+    { name: 'Projects', href: '/projects' },
     { name: 'Contact', href: '/contact-us' },
   ],
   social: [
     {
       name: 'Instagram',
-      href: 'https://www.instagram.com/ek360_cargo/',
+      href: 'https://www.instagram.com/classicstarbuilding/',
       icon: Icons.instagram,
     },
     {
       name: 'LinkedIn',
-      href: 'https://www.linkedin.com/in/ek-cargo-b1324a225/',
+      href: 'https://www.linkedin.com/company/classic-star-building/',
       icon: Icons.linkedin,
     },
   ],
@@ -58,7 +58,7 @@ export function Footer() {
             ))}
           </div>
           <p className="text-center text-sm text-gray-500 dark:text-gray-400">
-            © {new Date().getFullYear()} EK360 Cargo LLC. All rights reserved.
+            © {new Date().getFullYear()} Classic Star Building LLC. All rights reserved.
           </p>
         </div>
       </div>

@@ -19,10 +19,10 @@ export function CTA() {
               className="max-w-3xl space-y-4"
             >
               <h2 className="text-3xl font-bold sm:text-4xl md:text-5xl">
-                Ready to <GradientText as="span" className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">Transform</GradientText> Your Logistics?
+                Ready to <GradientText as="span" className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">Build</GradientText> Your Dream Project?
               </h2>
               <p className="mx-auto max-w-2xl text-gray-600 dark:text-gray-300">
-                Get in touch with our experts to discuss your logistics needs and discover how we can help streamline your supply chain.
+                Get in touch with our construction experts to discuss your project requirements and discover how we can bring your vision to life.
               </p>
             </motion.div>
             <motion.div
@@ -36,10 +36,10 @@ export function CTA() {
                 <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                 <div className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-white dark:bg-gray-950 text-xs font-medium backdrop-blur-3xl">
                   <Link
-                    href="/contact"
+                    href="/contact-us"
                     className="inline-flex rounded-full text-center group items-center w-full justify-center bg-gradient-to-tr from-zinc-300/30 via-primary/30 to-transparent dark:from-zinc-300/5 dark:via-purple-400/20 text-gray-900 dark:text-white border-input border-[1px] hover:bg-gradient-to-tr hover:from-zinc-300/40 hover:via-primary/40 hover:to-transparent dark:hover:from-zinc-300/10 dark:hover:via-purple-400/30 transition-all sm:w-auto py-4 px-10"
                   >
-                    Get Started
+                    Start Your Project
                   </Link>
                 </div>
               </span>
@@ -47,10 +47,10 @@ export function CTA() {
                 <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
                 <div className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-white dark:bg-gray-950 text-xs font-medium backdrop-blur-3xl">
                   <Link
-                    href="/about-us"
+                    href="/projects"
                     className="inline-flex rounded-full text-center group items-center w-full justify-center bg-gradient-to-tr from-zinc-300/30 via-primary/30 to-transparent dark:from-zinc-300/5 dark:via-purple-400/20 text-gray-900 dark:text-white border-input border-[1px] hover:bg-gradient-to-tr hover:from-zinc-300/40 hover:via-primary/40 hover:to-transparent dark:hover:from-zinc-300/10 dark:hover:via-purple-400/30 transition-all sm:w-auto py-4 px-10"
                   >
-                    Learn More
+                    View Our Projects
                   </Link>
                 </div>
               </span>

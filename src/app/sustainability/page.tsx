@@ -38,38 +38,38 @@ interface Initiative {
 const initiatives: Initiative[] = [
   { 
     icon: Recycle, 
-    title: "Waste Reduction & Recycling", 
-    description: "Implementing comprehensive recycling programs across all facilities and minimizing operational waste throughout our logistics chain.",
+    title: "Construction Waste Reduction", 
+    description: "Implementing strict waste management and recycling protocols on all our construction sites to minimize landfill impact.",
     accent: "emerald"
   },
   { 
-    icon: Truck, 
-    title: "Optimized Transportation", 
-    description: "Utilizing fuel-efficient vehicles, optimizing routes, and exploring alternative fuel sources to reduce emissions and carbon footprint.",
-    accent: "blue" 
-  },
-  { 
     icon: Lightbulb, 
-    title: "Energy Efficiency", 
-    description: "Investing in energy-saving technologies for our warehouses and offices, including LED lighting and smart energy management systems.",
+    title: "Energy-Efficient Building Design", 
+    description: "Incorporating energy-saving technologies and materials in every project, including LED lighting, insulation, and smart systems.",
     accent: "cyan" 
   },
   { 
+    icon: Factory, 
+    title: "Sustainable Materials Sourcing", 
+    description: "Prioritizing the use of locally sourced, recycled, and certified green materials to reduce our carbon footprint.",
+    accent: "blue" 
+  },
+  { 
     icon: HeartHandshake, 
-    title: "Ethical Partnerships", 
-    description: "Collaborating with partners who share our commitment to environmental responsibility and ethical business practices.",
+    title: "Community & Environmental Partnerships", 
+    description: "Collaborating with local organizations and authorities to promote green spaces, tree planting, and community well-being.",
     accent: "green" 
   },
 ];
 
 // Goals data
 const goals = [
-  "Reduce carbon emissions per shipment by 15% by 2028",
-  "Increase sustainable packaging materials to 75%",
-  "Achieve zero waste-to-landfill in major warehousing hubs",
-  "Expand employee volunteer programs focused on environmental conservation",
-  "Implement renewable energy across 50% of our global facilities",
-  "Source 80% of our office supplies from eco-friendly providers"
+  "Achieve 30% reduction in construction waste by 2028",
+  "Increase use of certified green materials to 60% of all projects",
+  "Design all new projects to exceed UAE energy efficiency standards",
+  "Expand on-site renewable energy (solar, etc.) to 50% of eligible projects",
+  "Support local community green initiatives and tree planting annually",
+  "Train 100% of staff in sustainable construction best practices"
 ];
 
 // Utility function to get accent color classes
@@ -92,13 +92,13 @@ export default function SustainabilityPage() {
         {/* Hero Section - UNTOUCHED */}
         <HeroSection 
           videoSrc="/video/hero3.mp4"
-          title="Sustainable Logistics."
+          title="Sustainable Construction."
           subtitle={{
-            regular: "Moving Forward, ",
+            regular: "Building the Future, ",
             gradient: "Responsibly."
           }}
           description={
-            <>Committed to <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500">sustainable practices</span> across our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">global logistics</span> network.</>
+            <>Committed to sustainable construction and environmental care.</>
           }
           ctaText="Learn About Our Impact"
           ctaHref="#initiatives"
@@ -128,10 +128,10 @@ export default function SustainabilityPage() {
                       </h2>
                       <div className="space-y-4 text-gray-600 dark:text-gray-300">
                         <p className="text-lg">
-                          At EK360 Cargo, we believe that responsible business practices are crucial for a sustainable future. We are dedicated to minimizing our environmental footprint, promoting ethical operations, and contributing positively to the communities we serve.
+                          At Classic Star Building, we believe that responsible construction is essential for a sustainable future. We are dedicated to reducing our environmental impact, building energy-efficient structures, and creating positive change in the communities we serve.
                         </p>
                         <p>
-                          Our commitment extends beyond regulatory compliance. We continuously innovate and invest in technologies and processes that reduce waste, conserve energy, and minimize pollution across our entire supply chain.
+                          Our approach goes beyond compliance. We innovate with green building techniques, invest in sustainable materials, and empower our teams to deliver projects that are both high-quality and environmentally conscious.
                         </p>
                       </div>
                     </div>
@@ -214,7 +214,7 @@ export default function SustainabilityPage() {
                   Making a Positive <GradientText as="span">Environmental Impact</GradientText>
                 </h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                  We're actively implementing strategies across our operations to drive meaningful environmental change and set a new standard for sustainable logistics.
+                  We are actively advancing sustainable construction practices—reducing waste, saving energy, and building for a greener tomorrow in the UAE.
                 </p>
               </motion.div>
             </div>
@@ -290,7 +290,7 @@ export default function SustainabilityPage() {
                     <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black via-black/80 to-transparent">
                       <div className="flex items-center">
                         <span className="text-2xl mr-2">🍃</span>
-                        <h3 className="text-2xl font-bold text-white">Sustainable Logistics Future</h3>
+                        <h3 className="text-2xl font-bold text-white">Sustainable Construction Future</h3>
                       </div>
                       <div className="mt-6 flex items-center">
                         <div className="flex space-x-1">
@@ -318,7 +318,7 @@ export default function SustainabilityPage() {
                     Our <GradientText as="span" className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500">Sustainability</GradientText> Goals
                   </h2>
                   <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-                    Our journey towards sustainability is ongoing. We are committed to setting ambitious goals, tracking our progress, and continuously seeking innovative ways to reduce our impact.
+                    Our journey towards sustainability is ongoing. We set ambitious goals, measure our progress, and continually seek new ways to build responsibly and reduce our impact on the environment.
                   </p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -361,10 +361,10 @@ export default function SustainabilityPage() {
             <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-2xl p-8 md:p-12 shadow-xl border border-gray-200 dark:border-gray-800">
               <div className="text-center mb-8">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                  Join Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-500 to-teal-400">Green Logistics</span> Movement
+                  Join Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-green-500 to-teal-400">Green Building</span> Movement
                 </h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-                  Together, we can build a more sustainable logistics industry that balances business needs with environmental responsibility.
+                  Together, we can shape a more sustainable construction industry—balancing progress with environmental responsibility for generations to come.
                 </p>
               </div>
               
@@ -374,7 +374,7 @@ export default function SustainabilityPage() {
                     <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#84D894,#07A14C,#40B677,#84D894)]" />
                     <div className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-white dark:bg-gray-950 text-xs font-medium backdrop-blur-3xl">
                       <span className="inline-flex rounded-full text-center group items-center w-full justify-center bg-gradient-to-tr from-zinc-300/30 via-green-400/20 to-transparent dark:from-zinc-300/5 dark:via-green-500/20 text-gray-900 dark:text-white border-input border-[1px] hover:bg-gradient-to-tr hover:from-zinc-300/40 hover:via-green-400/30 hover:to-transparent dark:hover:from-zinc-300/10 dark:hover:via-green-500/30 transition-all sm:w-auto py-4 px-10 text-base">
-                        Contact Our Sustainability Team
+                        Get in Touch
                       </span>
                     </div>
                   </span>

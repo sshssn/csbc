@@ -12,18 +12,25 @@ export default function Home() {
   return (
     <Layout>
       <HeroSection 
-        title="EK360 Cargo."
+        title="Classic Star Building."
         subtitle={{
-          regular: "Your ",
-          gradient: "Global Full-Service Logistics Provider."
+          regular: "Leading ",
+          gradient: <>
+            Main Contractors in{' '}
+            <span>
+              <span className="font-bold text-red-600">U</span>
+              <span className="font-bold text-green-600">A</span>
+              <span className="font-bold text-black dark:text-white">E</span>
+            </span>.
+          </>
         }}
         description={
-          <>Your trusted partner in global logistics solutions, delivering excellence across <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500">Air</span>, <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-500">Sea</span>, &amp; <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-500">Land</span>.</>
+          <>Specializing in <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500">Luxury Villas</span>, <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-500">Warehouses</span>, &amp; <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-500">Major RCC & Steel Works</span> with 20+ years of excellence.</>
         }
-        ctaText="Get Started"
+        ctaText="Our Solutions"
         ctaHref="#features"
+        videoSrc="/video/hero.mp4"
       />
-      <LogoSlider />
       <Features9 id="features" />
       <Content5 />
       <FAQ />

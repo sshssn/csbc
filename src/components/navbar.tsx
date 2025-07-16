@@ -5,6 +5,9 @@ import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { useState, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { Building2 } from "lucide-react"
+import { Sun, Moon } from "lucide-react"
+import { useTheme } from "next-themes"
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -19,6 +22,9 @@ export function Navbar() {
   const [prevScrollPos, setPrevScrollPos] = useState(0)
   const [visible, setVisible] = useState(true)
   const [isScrolled, setIsScrolled] = useState(false)
+  const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
   
   // Handle scroll events for navbar hiding
   const handleScroll = useCallback(() => {
@@ -61,12 +67,15 @@ export function Navbar() {
   }, [isMenuOpen])
 
   return (
-    <nav 
+    <nav
       className={cn(
         "fixed top-0 z-50 w-full transition-all duration-300 border-b dark:border-gray-800",
         visible ? "translate-y-0" : "-translate-y-full",
-        isMenuOpen ? "bg-white/95 backdrop-blur-xl dark:bg-black/95" : "bg-white/90 backdrop-blur-md dark:bg-black/90",
-        isScrolled ? "shadow-md" : ""
+        isMenuOpen
+          ? "bg-white/95 backdrop-blur-xl"
+          : isScrolled
+            ? "bg-white/80 backdrop-blur-md shadow-md"
+            : "bg-white/90 backdrop-blur-md",
       )}
     >
       <div className="container mx-auto">
@@ -78,7 +87,7 @@ export function Navbar() {
           </div>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:space-x-1">
+          <div className="hidden md:flex md:space-x-1 items-center">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -93,12 +102,27 @@ export function Navbar() {
                 {item.name}
               </Link>
             ))}
+            <Link href="/projects" className="ml-2 flex items-center gap-1 p-2 rounded-full hover:bg-primary/10 transition" aria-label="Projects">
+              <Building2 className="w-5 h-5 text-primary" />
+              <span className="text-sm text-primary font-medium">Projects</span>
+            </Link>
+            {/* Desktop Theme Toggle */}
+            {mounted && (
+              <button
+                onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+                className="ml-2 rounded-full p-2 bg-gray-100 dark:bg-black focus:outline-none flex items-center justify-center"
+                aria-label="Toggle theme"
+              >
+                {resolvedTheme === 'dark' ? (
+                  <Sun className="h-5 w-5 text-yellow-500" />
+                ) : (
+                  <Moon className="h-5 w-5 text-gray-700" />
+                )}
+              </button>
+            )}
           </div>
 
           <div className="flex items-center space-x-2 md:space-x-4">
-            <GradientButton asChild className="hidden md:flex h-8 text-sm bg-gradient-to-r from-primary via-primary/90 to-primary hover:from-primary/90 hover:via-primary/80 hover:to-primary/90">
-              <Link href="/cargo-tracking">Track Shipment</Link>
-            </GradientButton>
             
             {/* Modern Hamburger Button */}
             <button
@@ -173,11 +197,11 @@ export function Navbar() {
                 >
                   <div className="relative overflow-hidden rounded-md p-[1.5px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
                     <Link 
-                      href="/cargo-tracking"
+                      href="/projects"
                       onClick={() => setIsMenuOpen(false)}
                       className="flex h-10 w-full items-center justify-center rounded-[6px] bg-white dark:bg-gray-950 px-3 py-2 text-sm font-medium text-gray-900 dark:text-white transition-colors hover:bg-gray-50/90 dark:hover:bg-gray-900/90"
                     >
-                      Track Shipment
+                      View Projects
                     </Link>
                   </div>
                 </motion.div>

@@ -3,17 +3,6 @@ import { cn } from "@/lib/utils"
 import { ChevronRight } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { GradientText } from '@/components/ui/gradient-text'
-import { 
-  VIDEO_SOURCES, 
-  VIDEO_POSTERS, 
-  DEFAULT_POSTER,
-  FALLBACK_VIDEO_SOURCES,
-  FALLBACK_POSTERS,
-  DEFAULT_FALLBACK_POSTER,
-  DEFAULT_FALLBACK_VIDEO,
-  DIRECT_VIDEO_SOURCES,
-  S3_DOMAIN
-} from '@/config/cloudfront'
 
 // For TypeScript support of Navigator.connection
 interface NetworkInformation {
@@ -34,7 +23,7 @@ interface HeroSectionProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
   subtitle?: {
     regular: string
-    gradient: string
+    gradient: string | React.ReactNode
   }
   description?: string | React.ReactNode
   ctaText?: string
@@ -71,203 +60,44 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
     },
     ref,
   ) => {
-    const pathname = usePathname() as ValidPath;
-    const [s3Failed, setS3Failed] = React.useState(false);
     const [isVideoLoaded, setIsVideoLoaded] = React.useState(false);
     const [videoReady, setVideoReady] = React.useState(false);
-    const [shouldLoadVideo, setShouldLoadVideo] = React.useState(false);
-    const [isMobile, setIsMobile] = React.useState(false);
+    const [shouldLoadVideo, setShouldLoadVideo] = React.useState(true);
     const videoRef = React.useRef<HTMLVideoElement>(null);
 
-    // Initialize browser-specific states
+    // Only use the provided videoSrc
+    const videoUrl = videoSrc || "/video/hero.mp4";
+    const posterUrl = undefined;
+
     React.useEffect(() => {
-      // Check for data saver and reduced motion
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const saveData = navigator.connection?.saveData;
-      
-      // Check device and connection type
-      const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
-      const isSlowConnection = navigator.connection ? 
-        (navigator.connection.effectiveType === 'slow-2g' || 
-         navigator.connection.effectiveType === '2g' || 
-         navigator.connection.effectiveType === '3g') : false;
-      
-      setIsMobile(isMobileDevice);
-      
-      // For very slow connections or smaller screens, don't load video
-      if (isSlowConnection && isMobileDevice) {
-        setShouldLoadVideo(false);
-        return;
-      }
-      
-      // Don't load video if user has data saving or prefers reduced motion
-      setShouldLoadVideo(!(prefersReducedMotion || saveData));
+      setShouldLoadVideo(true);
     }, []);
 
-    // Get the correct video URL based on path and S3 status
-    const videoUrl = React.useMemo(() => {
-      if (s3Failed) {
-        return pathname in FALLBACK_VIDEO_SOURCES 
-          ? FALLBACK_VIDEO_SOURCES[pathname] 
-          : videoSrc || "/video/hero.mp4";
-      }
-      return pathname in VIDEO_SOURCES 
-        ? VIDEO_SOURCES[pathname] 
-        : videoSrc || VIDEO_SOURCES['/'];
-    }, [pathname, s3Failed, videoSrc]);
-
-    // Get the correct poster URL based on path and S3 status
-    const posterUrl = React.useMemo(() => {
-      if (s3Failed) {
-        return pathname in FALLBACK_POSTERS 
-          ? FALLBACK_POSTERS[pathname] 
-          : DEFAULT_FALLBACK_POSTER;
-      }
-      return pathname in VIDEO_POSTERS 
-        ? VIDEO_POSTERS[pathname] 
-        : DEFAULT_POSTER;
-    }, [pathname, s3Failed]);
-
-    // Modified video source for mobile to use lower resolution
-    const optimizedVideoUrl = React.useMemo(() => {
-      // For mobile, use a different path that contains mobile-optimized versions
-      if (isMobile && videoUrl && !s3Failed) {
-        // Replace video path to use mobile optimized version (assuming these exist)
-        return videoUrl.replace('.mp4', '-mobile.mp4');
-      }
-      
-      return videoUrl;
-    }, [videoUrl, s3Failed, isMobile]);
-
-    // Handle video loading and errors
-    React.useEffect(() => {
-      if (videoRef.current && shouldLoadVideo) {
-        const video = videoRef.current;
-        
-        // Set lower resolution and quality for mobile
-        if (isMobile) {
-          video.setAttribute('playsinline', '');
-          video.muted = true;
-          video.setAttribute('preload', 'none');
-        }
-        
-        const handleLoadedData = () => {
-          setIsVideoLoaded(true);
-          setVideoReady(true);
-          
-          // Try to play the video
-          const playPromise = video.play();
-          
-          if (playPromise !== undefined) {
-            playPromise.catch((error) => {
-              // If autoplay fails, try muted autoplay
-              video.muted = true;
-              video.play().catch((err) => {
-                // If still failing, switch to local files
-                setS3Failed(true);
-              });
-            });
-          }
-        };
-
-        const handleError = () => {
-          if (!s3Failed) {
-            setS3Failed(true);
-          }
-        };
-
-        video.addEventListener('loadeddata', handleLoadedData);
-        video.addEventListener('error', handleError);
-
-        return () => {
-          video.removeEventListener('loadeddata', handleLoadedData);
-          video.removeEventListener('error', handleError);
-        };
-      }
-    }, [optimizedVideoUrl, s3Failed, shouldLoadVideo, isMobile]);
-
-    // Implement lazy loading
-    React.useEffect(() => {
-      if (videoRef.current && shouldLoadVideo) {
-        // Use Intersection Observer for lazy loading
-        const options = {
-          rootMargin: '100px', // Load when within 100px of viewport
-          threshold: 0.01
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            // Only load video when in viewport
-            if (entry.isIntersecting && videoRef.current) {
-              // Start loading the video
-              videoRef.current.setAttribute('preload', 'auto');
-              
-              // Set the proper source
-              const source = videoRef.current.querySelector('source');
-              if (source) {
-                source.setAttribute('src', optimizedVideoUrl);
-                videoRef.current.load();
-              }
-              
-              observer.unobserve(videoRef.current);
-            }
-          });
-        }, options);
-
-        observer.observe(videoRef.current);
-        return () => {
-          if (videoRef.current) {
-            observer.unobserve(videoRef.current);
-          }
-        };
-      }
-    }, [optimizedVideoUrl, shouldLoadVideo]);
-
     return (
-      <div className={cn("relative min-h-screen flex flex-col", className)} ref={ref} {...props}>
+      <div className={cn("relative min-h-screen h-screen flex flex-col", className)} ref={ref} {...props}>
         <div className="absolute inset-0 z-[0] h-full w-full overflow-hidden bg-gradient-to-b from-gray-900 to-black">
-          {/* Static background for all devices */}
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat" 
-            style={{ backgroundImage: `url(${posterUrl})`, filter: 'brightness(0.7)' }}
-          />
-          
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-900/80 to-black/80" />
-          
           {/* Video with lazy loading and optimization */}
           {shouldLoadVideo ? (
             <video
               ref={videoRef}
-              autoPlay={false}
+              autoPlay
               loop
               muted
               playsInline
-              preload="none"
+              preload="auto"
               className={cn(
                 "absolute top-0 left-0 h-full w-full object-cover brightness-[0.7]",
                 videoReady ? "opacity-100" : "opacity-0", 
                 "transition-opacity duration-500"
               )}
-              poster={posterUrl}
-              onError={() => {
-                setS3Failed(true);
-              }}
-            >
-              <source src="" type="video/mp4" />
-              {/* No source initially, will be set by intersection observer */}
-            </video>
-          ) : (
-            // Static fallback for when video is disabled
-            <div 
-              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: `url(${posterUrl})` }}
+              src={videoUrl}
+              onCanPlay={() => setVideoReady(true)}
             />
-          )}
+          ) : null}
         </div>
         
-        <section className="relative max-w-full mx-auto z-10 flex-grow flex items-center justify-center">
-          <div className="max-w-screen-xl mx-auto px-4 gap-6 md:gap-12 md:px-8 text-center">
+        <section className="relative max-w-full mx-auto z-10 flex-grow flex items-center justify-center min-h-screen h-screen">
+          <div className="max-w-screen-xl mx-auto px-4 gap-6 md:gap-12 md:px-8 text-center flex flex-col justify-center min-h-screen h-screen">
             <div className="space-y-3 md:space-y-5 max-w-3xl mx-auto">
               <h1 className="text-xs md:text-sm text-gray-200 group font-geist mx-auto px-3 py-1 md:px-5 md:py-2 bg-white/10 dark:bg-white/5 border-[1px] border-white/20 rounded-3xl w-fit backdrop-blur-sm">
                 {title}
@@ -279,10 +109,8 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                   {subtitle.gradient}
                 </span>
               </h2>
-              <div className="bg-white/10 dark:bg-gray-800/10 backdrop-blur-md rounded-full px-3 py-2 md:px-5 md:py-3 sm:px-7 sm:py-4 inline-block shadow-lg border border-white/10 w-[90vw] md:w-auto max-w-full">
-                <div className="max-w-full mx-auto font-medium tracking-wide text-xs md:text-sm sm:text-base px-2 text-white dark:text-white">
-                  {description}
-                </div>
+              <div className="max-w-full mx-auto font-medium tracking-wide text-xs md:text-sm sm:text-base px-2 text-white dark:text-white mt-4">
+                {description}
               </div>
               {ctaText && ctaHref && (
                 <div className="items-center justify-center gap-x-3 space-y-3 sm:flex sm:space-y-0 pt-3 md:pt-4">

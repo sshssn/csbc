@@ -4,10 +4,14 @@ import dynamic from 'next/dynamic'
 import { type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 import { GradientTracing } from './ui/gradient-tracing'
+import { useEffect } from 'react';
+import { useTheme } from 'next-themes';
+import { Icons } from './ui/icons'
 
 // Critical path components loaded immediately
 import { TopBanner } from './top-banner'
 import { MobileNavbar } from './mobile-navbar'
+import { Navbar } from './navbar'
 
 // Dynamically load non-critical components 
 const HeroHeader = dynamic(() => import('./hero5-header').then(mod => mod.HeroHeader), {
@@ -31,39 +35,56 @@ const PerformanceOptimizations = dynamic(
 )
 
 export default function Layout({ children }: { children: ReactNode }) {
-    const pathname = usePathname()
-    const isCargoTracking = pathname === '/cargo-tracking'
-
+    const pathname = usePathname();
+    const { resolvedTheme } = useTheme();
+    useEffect(() => {
+      // Optionally, add any WhatsApp widget script here if needed
+    }, []);
+    const isDark = resolvedTheme === 'dark';
     return (
         <>
             {/* Performance Optimizations */}
             <PerformanceOptimizations />
             
-            {!isCargoTracking && (
-                <>
-                    <TopBanner />
-                    <MobileNavbar />
-                    <div className="hidden lg:block">
-                        <HeroHeader />
-                    </div>
-                </>
-            )}
-            {isCargoTracking ? (
-                <div className="flex min-h-screen flex-col">
-                    <div className="flex items-center justify-center h-screen">
-                        <GradientTracing 
-                            height={40}
-                            width={40}
-                        />
-                    </div>
-                </div>
-            ) : (
-                <main className="overflow-x-hidden">
-                    {children}
-                </main>
-            )}
+            <TopBanner />
+            {/* Only show HeroHeader on large screens (remove Navbar) */}
+            <div className="hidden lg:block">
+                <HeroHeader />
+            </div>
+            <MobileNavbar />
+            
+            <main className="overflow-x-hidden">
+                {children}
+            </main>
             <Footer />
             <BackToTop />
+            {/* WhatsApp Floating Button - Official Black Icon */}
+            <a
+              href="https://wa.me/971529208432"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Chat on WhatsApp"
+              className="fixed z-50 bg-transparent border-none"
+              style={{
+                position: 'fixed',
+                // Move up on mobile so it doesn't overlap with bottom nav
+                bottom: typeof window !== 'undefined' && window.innerWidth <= 640 ? '80px' : '24px',
+                left: '24px',
+                zIndex: 1000,
+                padding: 0,
+                background: 'none',
+                border: 'none',
+                display: 'block',
+                width: '36px',
+                height: '36px',
+                borderRadius: '50%',
+                cursor: 'pointer',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.10)',
+                transition: 'transform 0.2s',
+              }}
+            >
+              <Icons.whatsapp style={{ width: 36, height: 36, display: 'block' }} />
+            </a>
         </>
     )
 } 

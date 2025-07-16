@@ -19,9 +19,6 @@ export default function CallToAction() {
                     <GradientButton asChild>
                         <Link href="/contact-us">Contact Us</Link>
                     </GradientButton>
-                    <GradientButton asChild variant="variant">
-                        <Link href="/cargo-tracking">Track Shipment</Link>
-                    </GradientButton>
                 </div>
             </div>
         </section>

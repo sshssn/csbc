@@ -5,34 +5,34 @@ import DottedMap from 'dotted-map'
 import { Area, AreaChart, CartesianGrid } from 'recharts'
 import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 import { cn } from '@/lib/utils'
-import { BadgeCheck, Briefcase, CheckCircle, Globe, Lock, ShieldCheck } from 'lucide-react'
+import { BadgeCheck, Briefcase, CheckCircle, Globe, Lock, ShieldCheck, Building2, Home, Award } from 'lucide-react'
 import { GradientText } from '@/components/ui/gradient-text'
 
 const features = [
     {
-        icon: <BadgeCheck className="size-6 text-blue-500" />,
-        title: 'Trusted',
-        description: 'An integrated logistics pioneer with local and global presence and experience.'
+        icon: <Building2 className="size-6 text-blue-500" />,
+        title: 'Main Contractors',
+        description: 'Leading main contractors specializing in luxury villas and warehouse construction across the UAE.'
     },
     {
-        icon: <CheckCircle className="size-6 text-emerald-500" />,
-        title: 'Reliable',
-        description: 'Specialists in services including aerospace logistics, exhibitions, and defense logistics.'
+        icon: <Home className="size-6 text-emerald-500" />,
+        title: 'Luxury Villas',
+        description: 'Expert construction of high-end luxury villas with premium finishes and modern architectural designs.'
     },
     {
-        icon: <Briefcase className="size-6 text-purple-500" />,
-        title: 'Advanced',
-        description: 'Proven scalability and flexibility to manage shipments and contracts of any industry.'
+        icon: <Award className="size-6 text-purple-500" />,
+        title: 'Quality Excellence',
+        description: '20+ years of experience delivering exceptional construction quality with sustainable building practices.'
     },
     {
-        icon: <Lock className="size-6 text-red-500" />,
-        title: 'Secure',
-        description: 'Committed to our values as a customer-centric experience organization.'
+        icon: <ShieldCheck className="size-6 text-red-500" />,
+        title: 'Green Building',
+        description: 'Leading provider of green building solutions using sustainable materials and energy-efficient methods.'
     },
     {
         icon: <Globe className="size-6 text-amber-500" />,
-        title: 'Worldwide',
-        description: 'Global reach through strategic partnerships with trusted international partners.'
+        title: 'UAE Wide Service',
+        description: 'Comprehensive construction services across all Emirates with established since 2007.'
     }
 ]
 
@@ -43,10 +43,10 @@ export default function Features9({ id }: { id?: string }) {
                 <div className="space-y-2">
                     <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-black">Solutions.</div>
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                        <GradientText as="span">Pioneering</GradientText> Global Logistics Excellence
+                        <GradientText as="span">Expert</GradientText> Construction Excellence
                     </h2>
                     <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                        We are a privately owned company that provides top-notch logistics and cargo solutions in UAE, KSA, and worldwide.
+                        We are a leading main contractor specializing in luxury villas and warehouse construction with 20+ years of experience in the UAE.
                     </p>
                 </div>
             </div>

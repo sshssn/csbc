@@ -12,8 +12,8 @@ const menuItems = [
     { name: 'Home', href: '/', icon: Home },
     { name: 'About Us', href: '/about-us', icon: Info },
     { name: 'Services', href: '/services', icon: Boxes },
+    { name: 'Projects', href: '/projects', icon: require('lucide-react').Building2 },
     { name: 'Sustainability', href: '/sustainability', icon: Leaf },
-    { name: 'Events', href: '/events/upcoming', icon: Calendar },
     { name: 'Contact Us', href: '/contact-us', icon: MessageSquare },
 ]
 
@@ -52,7 +52,7 @@ export const HeroHeader = () => {
                 <div className={cn('mx-auto max-w-6xl transition-all duration-300 lg:px-8', isScrolled ? 'bg-background/80 max-w-5xl rounded-2xl border backdrop-blur-lg lg:px-6' : '')}>
                     <div className="relative flex items-center justify-between py-2">
                         <div className="flex items-center">
-                            <Link href="/" className={cn("flex items-center py-1", !isScrolled && "bg-white/10 backdrop-blur-xl rounded-xl p-2 border border-white/20")}>
+                            <Link href="/" className="flex items-center py-1">
                                 <Logo size="xxsmall" forceDark={true} />
                             </Link>
                         </div>
@@ -66,16 +66,6 @@ export const HeroHeader = () => {
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <Button
-                                asChild
-                                size="sm"
-                                variant="outline"
-                                className={cn("text-xs border px-5 py-2", isScrolled ? 'inline-flex' : 'hidden sm:inline-flex')}>
-                                <Link href="/cargo-tracking">
-                                    <span>Track Shipment</span>
-                                </Link>
-                            </Button>
-                            
                             <button
                                 onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
                                 className="rounded-full p-2.5 bg-gray-100 dark:bg-black focus:outline-none"
