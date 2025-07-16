@@ -50,8 +50,8 @@ const initiatives: Initiative[] = [
   },
   { 
     icon: Factory, 
-    title: "Sustainable Materials Sourcing", 
-    description: "Prioritizing the use of locally sourced, recycled, and certified green materials to reduce our carbon footprint.",
+    title: "Premium Sustainable Materials", 
+    description: "Sourcing high-quality, certified sustainable materials that meet international standards while reducing environmental impact.",
     accent: "blue" 
   },
   { 
@@ -148,26 +148,26 @@ export default function SustainabilityPage() {
                   {[
                     { 
                       icon: TreePine, 
-                      title: "Carbon Offset", 
-                      description: "31,240 tons of CO₂ offset through our verified reforestation partners",
+                      title: "Waste Reduction", 
+                      description: "Implementing construction waste management and recycling programs",
                       accent: "emerald" as AccentColor
                     },
                     { 
                       icon: Factory, 
-                      title: "Sustainable Facilities", 
-                      description: "37 warehouses globally with green certifications",
+                      title: "Premium Materials", 
+                      description: "Sourcing high-quality sustainable materials that meet international quality standards",
                       accent: "blue" as AccentColor 
                     },
                     { 
                       icon: Wind, 
-                      title: "Renewable Energy", 
-                      description: "42% of operations powered by renewable energy sources",
+                      title: "Energy Efficiency", 
+                      description: "Designing buildings with energy-efficient systems and smart technology",
                       accent: "teal" as AccentColor
                     },
                     { 
                       icon: Sparkles, 
                       title: "Water Conservation", 
-                      description: "18.3 million gallons of water saved annually",
+                      description: "Installing water-efficient fixtures and rainwater harvesting systems",
                       accent: "cyan" as AccentColor
                     }
                   ].map((stat, index) => {

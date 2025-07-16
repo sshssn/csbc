@@ -23,84 +23,13 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic';
 import { useTheme } from 'next-themes';
-import { Turnstile } from '@/components/ui/turnstile'
-import { validateContactForm } from '@/lib/validation'
+import { useForm, ValidationError } from '@formspree/react'
 
 const Map = dynamic(() => import('@/components/ui/mapbox-map'), { ssr: false });
 
 export default function ContactPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState("");
-  const [turnstileToken, setTurnstileToken] = useState("");
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [state, handleSubmit] = useForm("mblkrzok");
   const { resolvedTheme } = useTheme();
-
-  const handleTurnstileSuccess = (token: string) => {
-    setTurnstileToken(token);
-  };
-
-  const handleTurnstileError = () => {
-    setTurnstileToken("");
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    
-    // Clear previous errors
-    setError("");
-    setFieldErrors({});
-
-    const formData = new FormData(e.currentTarget);
-    const data = {
-      firstName: formData.get('firstName') as string,
-      lastName: formData.get('lastName') as string,
-      email: formData.get('email') as string,
-      phone: formData.get('phone') as string,
-      service: formData.get('service') as string,
-      message: formData.get('message') as string,
-    };
-
-    // Validate form data
-    const validation = validateContactForm(data);
-    if (!validation.isValid) {
-      setFieldErrors(validation.errors);
-      return;
-    }
-
-    if (!turnstileToken) {
-      setError("Please complete the security check");
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          'cf-turnstile-response': turnstileToken,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setIsSubmitted(true);
-        console.log('Submission successful, Ray ID:', result.rayId);
-      } else {
-        setError(result.error || 'Failed to send message');
-      }
-    } catch (err) {
-      setError('Network error. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <Layout>
@@ -109,7 +38,7 @@ export default function ContactPage() {
           {/* Left: Map and contact info */}
           <div className="flex-1 flex flex-col justify-between rounded-3xl bg-white/70 dark:bg-black/40 backdrop-blur-lg shadow-2xl border border-white/20 dark:border-black/20 p-6 md:p-8 min-h-[480px] animate-fade-in">
             <div className="mb-6">
-              <h2 className="text-3xl font-extrabold mb-4 text-gradient bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Our Office</h2>
+              <h2 className="text-3xl font-extrabold mb-4 text-gradient bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent">Our Office</h2>
               <div className="flex items-start gap-3 mb-2">
                 <MapPin className="w-5 h-5 text-primary mt-0.5" />
                 <span className="text-gray-700 dark:text-gray-200 text-base font-medium">Al Barsha South 3rd, Miracle Garden, Arjan, The Light Commercial Tower, Unit No 415</span>
@@ -138,12 +67,12 @@ export default function ContactPage() {
             <Card className="p-6 md:p-8 h-full flex flex-col justify-center rounded-3xl bg-white/80 dark:bg-black/40 shadow-2xl border border-white/20 dark:border-black/20">
               <div className="space-y-8">
                 <div>
-                  <h3 className="text-3xl font-extrabold text-gradient bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">Request Consultation</h3>
+                  <h3 className="text-3xl font-extrabold text-gradient bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent">Get In Touch</h3>
                   <p className="text-gray-500 dark:text-gray-400 mt-2 text-base">
                     Fill out the form below and we will get back to you as soon as possible.
                   </p>
                 </div>
-                {isSubmitted ? (
+                {state.succeeded ? (
                   <div className="text-center py-8">
                     <CheckCircle className="mx-auto mb-4 text-green-500" size={48} />
                     <h4 className="text-xl font-semibold mb-2">Thank you!</h4>
@@ -160,11 +89,13 @@ export default function ContactPage() {
                             name="firstName" 
                             placeholder="Enter your first name" 
                             required 
-                            className={fieldErrors.firstName ? "border-red-500" : ""}
                           />
-                          {fieldErrors.firstName && (
-                            <p className="text-red-500 text-sm">{fieldErrors.firstName}</p>
-                          )}
+                          <ValidationError 
+                            prefix="First name" 
+                            field="firstName"
+                            errors={state.errors}
+                            className="text-red-500 text-sm"
+                          />
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="last-name">Last name</Label>
@@ -173,11 +104,13 @@ export default function ContactPage() {
                             name="lastName" 
                             placeholder="Enter your last name" 
                             required 
-                            className={fieldErrors.lastName ? "border-red-500" : ""}
                           />
-                          {fieldErrors.lastName && (
-                            <p className="text-red-500 text-sm">{fieldErrors.lastName}</p>
-                          )}
+                          <ValidationError 
+                            prefix="Last name" 
+                            field="lastName"
+                            errors={state.errors}
+                            className="text-red-500 text-sm"
+                          />
                         </div>
                       </div>
                       <div className="space-y-2">
@@ -188,11 +121,13 @@ export default function ContactPage() {
                           type="email" 
                           placeholder="Enter your email" 
                           required 
-                          className={fieldErrors.email ? "border-red-500" : ""}
                         />
-                        {fieldErrors.email && (
-                          <p className="text-red-500 text-sm">{fieldErrors.email}</p>
-                        )}
+                        <ValidationError 
+                          prefix="Email" 
+                          field="email"
+                          errors={state.errors}
+                          className="text-red-500 text-sm"
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="phone">Phone</Label>
@@ -201,16 +136,18 @@ export default function ContactPage() {
                           name="phone" 
                           type="tel" 
                           placeholder="Enter your phone number (e.g., 0501234567)" 
-                          className={fieldErrors.phone ? "border-red-500" : ""}
                         />
-                        {fieldErrors.phone && (
-                          <p className="text-red-500 text-sm">{fieldErrors.phone}</p>
-                        )}
+                        <ValidationError 
+                          prefix="Phone" 
+                          field="phone"
+                          errors={state.errors}
+                          className="text-red-500 text-sm"
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="service">Reason for Contact</Label>
                         <Select name="service" required>
-                          <SelectTrigger className={fieldErrors.service ? "border-red-500" : ""}>
+                          <SelectTrigger>
                             <SelectValue placeholder="Select a reason" />
                           </SelectTrigger>
                           <SelectContent>
@@ -219,9 +156,12 @@ export default function ContactPage() {
                             <SelectItem value="other">Other</SelectItem>
                           </SelectContent>
                         </Select>
-                        {fieldErrors.service && (
-                          <p className="text-red-500 text-sm">{fieldErrors.service}</p>
-                        )}
+                        <ValidationError 
+                          prefix="Service" 
+                          field="service"
+                          errors={state.errors}
+                          className="text-red-500 text-sm"
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="message">Message</Label>
@@ -230,28 +170,18 @@ export default function ContactPage() {
                           name="message" 
                           placeholder="Type your message here..." 
                           required 
-                          className={`resize-none ${fieldErrors.message ? "border-red-500" : ""}`}
+                          className="resize-none"
                         />
-                        {fieldErrors.message && (
-                          <p className="text-red-500 text-sm">{fieldErrors.message}</p>
-                        )}
+                        <ValidationError 
+                          prefix="Message" 
+                          field="message"
+                          errors={state.errors}
+                          className="text-red-500 text-sm"
+                        />
                       </div>
                     </div>
-                    {/* Cloudflare Turnstile */}
-                    <div className="flex justify-center">
-                      <Turnstile
-                        siteKey="1x00000000000000000000AA" // Test site key - replace with your actual site key
-                        onSuccess={handleTurnstileSuccess}
-                        onError={handleTurnstileError}
-                        theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
-                      />
-                    </div>
-                    <input type="hidden" name="cf-turnstile-response" value={turnstileToken} />
-                    {error && (
-                      <div className="text-red-500 text-sm text-center">{error}</div>
-                    )}
-                    <Button type="submit" className="w-full" disabled={isSubmitting}>
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                    <Button type="submit" className="w-full" disabled={state.submitting}>
+                      {state.submitting ? 'Sending...' : 'Send Message'}
                     </Button>
                   </form>
                 )}
@@ -265,4 +195,4 @@ export default function ContactPage() {
       </section>
     </Layout>
   )
-} 
+}
