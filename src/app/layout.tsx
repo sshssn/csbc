@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { getI18n, getScopedI18n } from '@/locales/server'
 import { I18nProviderClient } from '@/locales/client'
@@ -125,35 +124,27 @@ export default function RootLayout({
         </>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased overflow-x-hidden`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {/* Minimal critical HTML for fast LCP */}
-          {children}
-          
-          {/* Add JSON-LD structured data */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                "name": "Classic Star Building",
-                "url": "https://classicstarbuilding.com",
-                "logo": "https://classicstarbuilding.com/logo.png",
-                "description": "Main Contractors in UAE specializing in luxury villas, warehouses, and major RCC & Steel Works.",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressLocality": "Dubai",
-                  "addressCountry": "UAE"
-                }
-              })
-            }}
-          />
-        </ThemeProvider>
+        {/* Minimal critical HTML for fast LCP */}
+        {children}
+        {/* Add JSON-LD structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Classic Star Building",
+              "url": "https://classicstarbuilding.com",
+              "logo": "https://classicstarbuilding.com/logo.png",
+              "description": "Main Contractors in UAE specializing in luxury villas, warehouses, and major RCC & Steel Works.",
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Dubai",
+                "addressCountry": "UAE"
+              }
+            })
+          }}
+        />
       </body>
     </html>
   );

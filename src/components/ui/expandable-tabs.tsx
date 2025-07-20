@@ -72,7 +72,7 @@ export function ExpandableTabs({
     }
   }, [tabs]);
 
-  useOnClickOutside(outsideClickRef, () => {
+  useOnClickOutside(outsideClickRef as React.RefObject<HTMLElement>, () => {
     setSelected(null);
     onChange?.(null);
   });
@@ -125,7 +125,7 @@ export function ExpandableTabs({
                 : "text-muted-foreground hover:bg-muted hover:text-foreground"
             )}
           >
-            <Icon size={18} />
+            <Icon size={32} />
             <AnimatePresence initial={false}>
               {(selected === index || isActive) && (
                 <motion.span

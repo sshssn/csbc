@@ -65,17 +65,17 @@ const BentoGridItem = ({
     return (
         <div 
             className={cn(
-                "group/bento row-span-1 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-black/40 shadow-sm transition-all duration-200 hover:shadow-md hover:shadow-gray-100/50 dark:hover:shadow-black/30",
+                "group/bento row-span-1 rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md hover:shadow-gray-100/50",
                 className
             )}
         >
             {header && <div className="w-full">{header}</div>}
             <div className="p-6">
-                <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-2">
                     {title}
                 </h3>
                 {typeof description === 'string' ? (
-                  <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{description}</p>
+                  <p className="text-sm text-gray-600 leading-relaxed">{description}</p>
                 ) : (
                   <div>{description}</div>
                 )}

@@ -24,34 +24,10 @@
     --input: 240 5.9% 90%;
     --ring: 199 89% 48%;
     --radius: 0.5rem;
-
-    /* Gradient text colors */
     --color-1: 30 85% 55%;
     --color-2: 200 100% 50%;
     --color-3: 150 100% 50%;
     --color-4: 30 85% 55%;
-  }
-
-  .dark {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 199 89% 48%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 5%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 199 89% 48%;
   }
 }
 

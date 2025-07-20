@@ -5,8 +5,8 @@ import { ArrowRight } from "lucide-react";
 
 const villas = [
   {
-    key: "J05",
-    name: "J05 - Emirates Hills Dubai",
+    key: "emirates-hills-1",
+    name: "Luxury Villa, Emirates Hills",
     type: "G+1 Villa",
     location: "Emirates Hills, Dubai",
     description: "A luxurious G+1 villa in Emirates Hills, Dubai, featuring modern architecture, spacious interiors, and premium amenities.",
@@ -18,8 +18,8 @@ const villas = [
     ],
   },
   {
-    key: "UmmSuqeim1",
-    name: "Umm Suqeim - 1",
+    key: "umm-suqeim",
+    name: "Umm Suqeim, Dubai",
     type: "B+G+1 Villa",
     location: "Umm Suqeim, Dubai",
     description: "A B+G+1 villa in Umm Suqeim, Dubai, offering elegant design, multiple living spaces, and a serene environment.",
@@ -29,8 +29,8 @@ const villas = [
     ],
   },
   {
-    key: "E73A",
-    name: "E-73 A Emirates Hills",
+    key: "emirates-hills-2",
+    name: "Emirates Hills, Dubai",
     type: "G+1 Villa",
     location: "Emirates Hills, Dubai",
     description: "A G+1 villa in Emirates Hills with contemporary styling, lush landscaping, and high-end finishes throughout.",
@@ -40,8 +40,8 @@ const villas = [
     ],
   },
   {
-    key: "E78",
-    name: "E-78 Emirates Hills",
+    key: "emirates-hills-3",
+    name: "Emirates Hills, Dubai",
     type: "B+G+1 Villa",
     location: "Emirates Hills, Dubai",
     description: "A B+G+1 villa in Emirates Hills, designed for luxury living with expansive rooms and beautiful outdoor spaces.",
@@ -51,8 +51,8 @@ const villas = [
     ],
   },
   {
-    key: "P40",
-    name: "P-40 Emirates Hills",
+    key: "emirates-hills-4",
+    name: "Emirates Hills, Dubai",
     type: "G+1 Villa",
     location: "Emirates Hills, Dubai",
     description: "A G+1 villa in Emirates Hills, featuring open-plan living, modern amenities, and a tranquil setting.",
@@ -71,8 +71,8 @@ const villas = [
     ],
   },
   {
-    key: "V18PoloHomes",
-    name: "V-18 Polo Homes",
+    key: "polo-homes",
+    name: "Polo Homes, Dubai",
     type: "B+G+1 Villa",
     location: "Polo Homes, Dubai",
     description: "A B+G+1 villa in Polo Homes, Dubai, blending classic elegance with modern comforts in a prestigious community.",
@@ -84,8 +84,8 @@ const villas = [
     ],
   },
   {
-    key: "R46",
-    name: "R-46 Emirates Hills",
+    key: "emirates-hills-5",
+    name: "Emirates Hills, Dubai",
     type: "B+G+1 Villa",
     location: "Emirates Hills, Dubai",
     description: "A B+G+1 villa in Emirates Hills, offering spacious living, premium finishes, and a private garden oasis.",
@@ -101,8 +101,8 @@ const villas = [
     ],
   },
   {
-    key: "V17",
-    name: "V-17 Emirates Hills",
+    key: "emirates-hills-6",
+    name: "Emirates Hills, Dubai",
     type: "G+1 Villa",
     location: "Emirates Hills, Dubai",
     description: "A G+1 villa in Emirates Hills, designed for comfort and style, with beautiful interiors and outdoor living areas.",
@@ -184,7 +184,9 @@ export default function CompletedProjectsBento() {
                       </span>
                     </div>
                     <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-white mb-1">{villa.name}</h3>
-                    <div className="text-sm sm:text-base text-blue-700 dark:text-blue-300 font-medium mb-2">{villa.location}</div>
+                    {villa.name !== villa.location && (
+                      <div className="text-sm sm:text-base text-blue-700 dark:text-blue-300 font-medium mb-2">{villa.location}</div>
+                    )}
                     <div className="border-t border-gray-200 dark:border-gray-700 my-3" />
                     <p className="text-sm sm:text-base lg:text-lg text-gray-700 dark:text-gray-200 leading-relaxed mb-0">{villa.description}</p>
                   </div>

@@ -1,7 +1,6 @@
 'use client'
 
 import Image from 'next/image'
-import { useTheme } from 'next-themes'
 import { useState, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 
@@ -19,8 +18,8 @@ const sizes = {
     large: { width: 180, height: 60 }
 }
 
-export function Logo({ size = 'medium', className, forceDark = false }: LogoProps) {
-    const { resolvedTheme } = useTheme()
+export function Logo({ size = 'medium', className }: LogoProps) {
+    // Remove useTheme and dark mode logic
     const [mounted, setMounted] = useState(false)
 
     useEffect(() => {
@@ -31,8 +30,8 @@ export function Logo({ size = 'medium', className, forceDark = false }: LogoProp
 
     if (!mounted) {
         return (
-            <div style={{ width: dimensions.width, height: dimensions.height }} className="flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded animate-pulse">
-                <div className="w-2/3 h-2/3 bg-gray-300 dark:bg-gray-700 rounded" />
+            <div style={{ width: dimensions.width, height: dimensions.height }} className="flex items-center justify-center bg-gray-100 rounded animate-pulse">
+                <div className="w-2/3 h-2/3 bg-gray-300 rounded" />
             </div>
         );
     }
@@ -40,7 +39,7 @@ export function Logo({ size = 'medium', className, forceDark = false }: LogoProp
     return (
         <div className={cn("relative inline-block", className)}>
             <Image
-                src={forceDark || resolvedTheme === 'dark' ? '/images/dark.png' : '/images/light.png'}
+                src={'/images/light.png'}
                 alt="Classic Star Building Logo"
                 width={dimensions.width}
                 height={dimensions.height}
@@ -48,7 +47,7 @@ export function Logo({ size = 'medium', className, forceDark = false }: LogoProp
                 priority
                 onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = forceDark || resolvedTheme === 'dark' ? '/images/light.png' : '/images/dark.png';
+                    target.src = '/images/light.png';
                 }}
             />
         </div>

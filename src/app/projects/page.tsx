@@ -217,23 +217,10 @@ const getCategoryIcon = (category: Project['category']) => {
 function Projects() {
   return (
     <Layout>
-      <HeroSection 
-        title="Completed Projects."
-        subtitle={{
-          regular: "Explore our diverse portfolio of ",
-          gradient: "Completed Projects."
-        }}
-        description={
-          <>Discover our completed construction projects, each a testament to our expertise, quality, and commitment to client satisfaction.</>
-        }
-        ctaText="Contact Us"
-        ctaHref="/contact-us"
-        videoSrc="https://mhy2q3qipm.ufs.sh/f/nND0FwvkWb7XDotr6ZqMeLcJXG9dUnWbRmQsxDwPBAqOIi38"
-      />
       <section className="py-16 bg-white dark:bg-black">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+          <div className="text-center mb-12 pt-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500">
               Completed Projects
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">

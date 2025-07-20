@@ -34,10 +34,6 @@ export default function Content5() {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
                                 <h3 className="text-white text-2xl font-bold mb-2">UAE Construction Leaders</h3>
                                 <p className="text-white/90">20+ years of experience delivering exceptional construction projects across all Emirates</p>
-                                <Link href="/about-us" className="inline-flex items-center text-white mt-4 group/link">
-                                    Learn more about our expertise 
-                                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/link:translate-x-1" />
-                                </Link>
                             </div>
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <Building2 className="w-32 h-32 text-primary/20" />

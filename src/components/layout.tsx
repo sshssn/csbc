@@ -1,24 +1,19 @@
 'use client'
 
-import dynamic from 'next/dynamic'
 import { type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 import { GradientTracing } from './ui/gradient-tracing'
 import { useEffect } from 'react';
-import { useTheme } from 'next-themes';
 import { Icons } from './ui/icons'
+import dynamic from 'next/dynamic'
 
 // Critical path components loaded immediately
 import { TopBanner } from './top-banner'
 import { MobileNavbar } from './mobile-navbar'
 import { Navbar } from './navbar'
+import { NewHeader } from './hero5-header'
 
 // Dynamically load non-critical components 
-const HeroHeader = dynamic(() => import('./hero5-header').then(mod => mod.HeroHeader), {
-  ssr: true,
-  loading: () => <div className="h-16 lg:h-20" />
-})
-
 const Footer = dynamic(() => import('./ui/footer').then(mod => mod.Footer), {
   ssr: false,
   loading: () => <div className="h-64 bg-background" />
@@ -36,11 +31,10 @@ const PerformanceOptimizations = dynamic(
 
 export default function Layout({ children }: { children: ReactNode }) {
     const pathname = usePathname();
-    const { resolvedTheme } = useTheme();
+    // Remove useTheme and dark mode logic
     useEffect(() => {
       // Optionally, add any WhatsApp widget script here if needed
     }, []);
-    const isDark = resolvedTheme === 'dark';
     return (
         <>
             {/* Performance Optimizations */}
@@ -49,7 +43,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             <TopBanner />
             {/* Only show HeroHeader on large screens (remove Navbar) */}
             <div className="hidden lg:block">
-                <HeroHeader />
+                <NewHeader />
             </div>
             <MobileNavbar />
             
