@@ -59,6 +59,19 @@ const services: ServiceItem[] = [
     ],
     accent: "indigo",
     image: "/images/luxury.jpg"
+  },
+  {
+    title: "Warehouse & Industrial Expertise",
+    icon: Warehouse,
+    description: "Specialists in steel and RCC works for warehouses and industrial facilities. We deliver robust, scalable, and efficient spaces tailored for logistics, manufacturing, and storage.",
+    features: [
+      "Steel structure and RCC construction",
+      "Large-span, high-clearance designs",
+      "Advanced safety and fire systems",
+      "Turnkey solutions for logistics and industry"
+    ],
+    accent: "blue",
+    image: "/images/warehouse.jpg"
   }
 ]
 
@@ -106,27 +119,21 @@ function Services() {
             </p>
           </div>
 
-          {/* Centered Single Bento Card */}
-          <div className="flex justify-center items-center w-full">
+          {/* Two-column grid for bento cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
             {services.map((service, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.12 }}
-                className="group relative rounded-3xl overflow-hidden shadow-2xl glass-bento border border-white/20 hover:scale-105 transition-all duration-500 min-h-[700px] flex flex-col max-w-[1000px] w-full md:w-4/5 backdrop-blur-xl bg-white/60"
+                className="group relative rounded-3xl overflow-hidden shadow-2xl glass-bento border border-white/20 min-h-[500px] flex flex-col max-w-full w-full backdrop-blur-xl bg-white/60"
                 style={{ boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.18)', background: 'rgba(255,255,255,0.60)', border: '1.5px solid rgba(255,255,255,0.18)' }}
               >
                 {/* Service Image */}
-                <div className="relative w-full h-80 md:h-[400px]">
-                  <Image
+                <div className="relative w-full h-64 md:h-80">
+                  <img
                     src={service.image}
                     alt={service.title}
-                    fill
-                    className="object-cover object-center rounded-t-3xl"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    priority
+                    className="object-cover object-center w-full h-full rounded-t-3xl"
+                    style={{ objectFit: 'cover' }}
                   />
                   <div className="absolute top-4 right-4 p-3 rounded-xl bg-white/30 backdrop-blur-md shadow-lg z-20">
                     <service.icon className="w-7 h-7 text-primary" />
@@ -148,26 +155,14 @@ function Services() {
                     <div className="space-y-3 mb-6">
                       {service.features.map((feature, featureIndex) => (
                         <div key={featureIndex} className="flex items-center space-x-3">
-                          <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                          <service.icon className="w-5 h-5 text-green-400 flex-shrink-0" />
                           <span className="text-base text-black">{feature}</span>
                         </div>
                       ))}
                     </div>
                   </div>
-                  <div className="mt-auto flex flex-col gap-2">
-                    <GradientButton 
-                      asChild 
-                      className="w-full text-lg font-semibold py-3"
-                    >
-                      <Link href="/contact-us">
-                        Learn More
-                        <ArrowRight className="ml-2 h-5 w-5" />
-                      </Link>
-                    </GradientButton>
-                    <a href="/projects" className="block text-black underline text-base hover:text-primary/80 text-center">See Related Projects</a>
-                  </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

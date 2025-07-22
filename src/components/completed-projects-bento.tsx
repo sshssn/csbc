@@ -185,7 +185,7 @@ export default function CompletedProjectsBento() {
                     </div>
                     <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-white mb-1">{villa.name}</h3>
                     {villa.name !== villa.location && (
-                      <div className="text-sm sm:text-base text-blue-700 dark:text-blue-300 font-medium mb-2">{villa.location}</div>
+                    <div className="text-sm sm:text-base text-blue-700 dark:text-blue-300 font-medium mb-2">{villa.location}</div>
                     )}
                     <div className="border-t border-gray-200 dark:border-gray-700 my-3" />
                     <p className="text-sm sm:text-base lg:text-lg text-gray-700 dark:text-gray-200 leading-relaxed mb-0">{villa.description}</p>

@@ -98,6 +98,8 @@ export default function RootLayout({
         
         {/* Preload critical assets */}
         <link rel="preload" href={`${S3_DOMAIN}/images/posters/home-poster.jpg`} as="image" />
+        {/* App logo as favicon */}
+        <link rel="icon" href="/images/dark.png" type="image/png" />
         
         {/* Meta tags */}
         <meta name="google-site-verification" content="your-verification-code" />

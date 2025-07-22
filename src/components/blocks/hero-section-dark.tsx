@@ -91,6 +91,12 @@ const HeroSection = React.forwardRef<HTMLDivElement, HeroSectionProps>(
                 "transition-opacity duration-500"
               )}
               src={videoUrl}
+              onLoadedMetadata={() => {
+                if (videoRef.current) {
+                  videoRef.current.currentTime = 16;
+                  videoRef.current.play();
+                }
+              }}
               onCanPlay={() => setVideoReady(true)}
             />
           ) : null}
