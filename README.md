@@ -1,6 +1,6 @@
 # <img src="public/images/dark.png" alt="Logo" width="120" style="vertical-align:middle;" />
 
-# CSB_JS
+
 
 A modern construction and real estate showcase built with Next.js, featuring luxury villas, warehouses, and commercial projects in the UAE. The project highlights ongoing and completed works, with a focus on quality, innovation, and sustainability.
 
