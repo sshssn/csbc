@@ -27,7 +27,7 @@ const ongoingProjects = [
   {
     key: "eh2",
     name: "Emirates Hill 2",
-    image: "/images/1.jpg",
+    image: "/images/5.jpg",
   },
 ];
 
