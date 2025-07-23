@@ -16,9 +16,9 @@ A modern construction and real estate showcase built with Next.js, featuring lux
 3. Run the development server: `npm run dev`
 
 ## Credits
-**Developed by:** Syed Sarmad  
-**With AffinityX**
+**Developed by:** ssh 
+**@ AffinityX**
 
 ---
 
-© 2025 Syed Sarmad / AffinityX. All rights reserved.
+© 2025 Syed Sarmad x AffinityX ❤️. All rights reserved.
