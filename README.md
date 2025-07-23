@@ -21,4 +21,4 @@ A modern construction and real estate showcase built with Next.js, featuring lux
 
 ---
 
-© 2025 Syed Sarmad x AffinityX ❤️. All rights reserved.
+© 2025 ssh x AffinityX ❤️. All rights reserved.
