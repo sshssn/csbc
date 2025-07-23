@@ -1,64 +1,24 @@
-# Classic Star Building Website
+# <img src="public/images/dark.png" alt="Logo" width="120" style="vertical-align:middle;" />
 
-A modern website for Classic Star Building, main contractors in the UAE specializing in luxury villas, warehouses, and major RCC & Steel Works.
+# CSB_JS
+
+A modern construction and real estate showcase built with Next.js, featuring luxury villas, warehouses, and commercial projects in the UAE. The project highlights ongoing and completed works, with a focus on quality, innovation, and sustainability.
 
 ## Features
-
-- **Homepage** with a hero section, features, content sections, statistics, team showcase, call to action, and FAQs
-- **About Us Page** with company story, vision, and team members
-- **Services Page** showcasing the various logistics and shipping services offered
-- **Events Pages** for current and upcoming industry events
-- **Contact Us Page** with a contact form and office locations
-
-## Tech Stack
-
-- **Next.js** - React framework for server-rendered applications
-- **TypeScript** - Type-safe JavaScript
-- **Tailwind CSS** - Utility-first CSS framework
-- **ShadCN UI** - High-quality UI components
-- **Lucide Icons** - Beautiful open-source icons
+- Portfolio of luxury, commercial, and industrial projects
+- Ongoing and completed project galleries
+- Responsive, modern UI with dark mode
+- Built with Next.js, React, and Tailwind CSS
 
 ## Getting Started
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Run the development server: `npm run dev`
 
-First, install the dependencies:
+## Credits
+**Developed by:** Syed Sarmad  
+**With AffinityX**
 
-```bash
-yarn install
-```
+---
 
-Then, run the development server:
-
-```bash
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Pages Structure
-
-- `/` - Homepage
-- `/about-us` - About Us page
-- `/contact-us` - Contact Us page
-- `/services` - Services page
-- `/events/current` - Current Events page
-- `/events/upcoming` - Upcoming Events page
-
-## Components
-
-All reusable components are organized in the `src/components` directory. The application uses a modular approach with components like:
-
-- Hero Section
-- Features
-- Content Sections
-- Statistics
-- Team Showcase
-- FAQs
-- Footer
-- Contact Form
-- Bento Grid
-- Globe (for showing logistics coverage)
-- Loading Animation
-
-## License
-
-This project is licensed under EcommerceFusion LLC, AffinityX.
+© 2025 Syed Sarmad / AffinityX. All rights reserved.
