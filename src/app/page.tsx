@@ -17,7 +17,6 @@ const stats = [
   { icon: BadgeCheck, title: 100, desc: "Satisfied Clients", suffix: "+" },
   { icon: Globe2, title: 100, desc: "Projects Completed", suffix: "+" },
   { icon: ShieldCheck, title: 20, desc: "Years of Experience", suffix: "+" },
-  { icon: Rocket, title: 10, desc: "Ongoing Projects", suffix: "+" }
 ];
 
 export default function Home() {
