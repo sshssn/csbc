@@ -81,7 +81,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className="text-3xl font-extrabold text-gradient bg-gradient-to-r from-sky-400 to-blue-500 bg-clip-text text-transparent">Get In Touch</h3>
                   <p className="text-gray-500 dark:text-gray-400 mt-2 text-base">
-                    Fill out the form below and we will get back to you as soon as possible.
+                    Fill out the form given below and we will get back to you as soon as possible.
                   </p>
                 </div>
                 {state.succeeded ? (
